@@ -1,3 +1,5 @@
+/*Puedes comentar todo el main excepo el llamado al Greeter para que cheques que si esté todo en orden, el jdk que está usando es el 1.8 del jvm*/
+
 class Greeter(val name: String) {
     fun greet() {
         println("Hello, $name")
