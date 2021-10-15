@@ -3,8 +3,7 @@ class Greeter(val name: String) {
         println("Hello, $name")
     }
 }
-class Respuesta(respuesta: String){
-    val respuesta = respuesta;
+class Respuesta(val respuesta: String){
 
     var reactivo:Reactivo
         get() {
@@ -16,16 +15,36 @@ class Respuesta(respuesta: String){
 
 }
 class Pregunta(val pregunta:String){
-    var respuestaCorrecta:Respuesta
-        get() {
-            return this.respuestaCorrecta
-        }
-        set(value) {this.respuestaCorrecta = value}
-    var respuestasIncorrectas:Array<Respuesta> = arrayOf();
+
 }
-class Reactivo( pregunta: Pregunta,  esRutaAprendizaje:Boolean){
-    val pregunta = pregunta;
-    var esRutaAprendizaje = esRutaAprendizaje;
+class Reactivo(
+    val pregunta: Pregunta,
+    val esRutaAprendizaje: Boolean,
+    respuestaCorrecta: Respuesta,
+    respuestasIncorrectas: Array<Respuesta>
+){
+    var respuestaCorrecta:Respuesta = respuestaCorrecta
+        get(){
+        return field;
+        }
+        set(value){
+            field = value;
+        }
+
+
+    var respuestasIncorrectas: Array<Respuesta> = respuestasIncorrectas
+        get(){
+            return field;
+        }
+        set(value){
+            field = value;
+        }
+
+
+
+    fun agregarRespuestaIncorrecta(respuesta:Respuesta){
+
+    }
 }
 class Tema( tema:String) {
 
@@ -40,15 +59,14 @@ fun main() {
     val sumaBinomios = Tema("suma de binomios");
     //Agregar 1 reactivo
     val pregunta1 = Pregunta("2x + 4x");
-    val respuesta1 = Respuesta("6x");
-    val respuesta2 = Respuesta("6x**2");
-    val respuesta3 = Respuesta("ninguna");
+    val respuestaCorrecta = Respuesta("6x");
+    val respuestaIncorrecta1 = Respuesta("6x**2");
+    val respuestaIncorrecta2 = Respuesta("ninguna");
 
-    val respuestasIncorrectas:Array<Respuesta> = arrayOf(respuesta2,respuesta3);
-    pregunta1.respuestaCorrecta = respuesta1;
-    pregunta1.respuestasIncorrectas = respuestasIncorrectas;
+    val respuestasIncorrectas:Array<Respuesta> = arrayOf(respuestaIncorrecta1,respuestaIncorrecta2);
 
-    val reactivo1 = Reactivo(pregunta1,true);
+    val reactivo1 = Reactivo(pregunta1, true, respuestaCorrecta, respuestasIncorrectas);
+    reactivo1.respuestaCorrecta = respuestaCorrecta ;
 
 
 
