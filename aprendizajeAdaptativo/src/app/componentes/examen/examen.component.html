@@ -1,0 +1,68 @@
+<div class="container">
+    
+    <h2>Temas</h2>
+    <ul>
+        <li *ngFor='let elemento of temaList'>
+            <span>{{elemento}}</span>
+        </li>
+    </ul>
+    <form>
+        <input type="text" [(ngModel)]="tema" name="temas" placeholder="agregue un nuevo tema" class="form-control">
+        <input class="btn btn-primary " type="submit" value="Agregar Tema" (click)="agregarTema()">
+    </form>
+    <br>
+
+
+    <div class="form-group row">
+        <div class="col-md-8 offset-md-2">
+            <input type="text" name="examen" id="materia" placeholder="Nombre del examen" class="form-control">
+        </div>
+    </div>
+
+    <form [formGroup]='examen'>
+
+        <div formArrayName="reactivos"
+            *ngFor="let reactivo of getReactivo(); let i = index">
+            <div [formGroupName]="i">
+
+                <span class="col-md-8 offset-md-2">Pregunta {{i+1}}</span>
+
+                <div id="pr_0">
+                    <div class="form-group row">
+                        <div class="col-md-8 offset-md-2">
+                            <input type="text" name="preguntas" [attr.id]="'contenido' + i"
+                                placeholder="Ingrese el contenido de la pregunta" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <!--esta es la seccion de las respuestas, se deberián generar n respuestas
+                    
+                    <div formArrayName="respuestas" *ngFor="let respuesta of getRespuesta(); let j = index">
+                    <div [formControlName]="j" >-->
+                        <div class="input-group form-group row">
+                            <div class="col-md-6 offset-md-2">
+                                <input type="text" name='{{i}}' [attr.id]="'contenido' + i" class="form-control"
+                                    placeholder="Inciso a">
+                            </div>
+                            <div class="input-group-text form-check">
+                                <input name="{{i}}" [attr.id]="'correcto' + i" type="radio" value="">
+                            </div>
+                        </div>
+    
+                <!-- </div>
+                    
+                </div>-->   
+
+
+            </div>
+        </div>
+
+
+        <div class="input-group-prepend text-center offset-lg-5">
+            <button class="btn btn-primary" type="button" (click)="agregarReactivo()">Agregar Reactivo</button>
+        </div>
+    </form>
+
+
+</div>
