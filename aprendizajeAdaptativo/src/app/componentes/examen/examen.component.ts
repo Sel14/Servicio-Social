@@ -74,7 +74,17 @@ export class ExamenComponent implements OnInit {
     return form.controls.respuestas.controls
     
   }
+
+  eliminarReactivo(i:any){
+    const reactivos=this.examen.get('reactivos') as FormArray;
+    reactivos.removeAt(i);
+  }
   
+  eliminarRespuesta(i:any, j:any){
+    const respuesta = (this.examen.get('reactivos') as FormArray).controls[i].get('respuestas') as FormArray;
+    respuesta.removeAt(j);
+  }
+
 }
 
 

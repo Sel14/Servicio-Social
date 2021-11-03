@@ -36,7 +36,13 @@
                 
                 <div class="col-8" id="pr_0">
                     <div class="form-group row justify-content-end">
-                        <p class="col-12">Pregunta {{i+1}}</p>
+                        <p class="col">Pregunta {{i+1}}</p>
+
+                        <select class="col form-control" name="tema" id="{{i}}" >
+                            <option selected disabled>--Seleccione un Tema--</option>
+                            <option *ngFor='let elemento of temaList' value="{{elemento}}">{{elemento}}</option>
+                        </select>
+
                         <div class="col-md-12">
                             <input type="text" name="preguntas" [attr.id]="'contenido' + i"
                                 placeholder="Ingrese el contenido de la pregunta" class="form-control">
@@ -49,16 +55,23 @@
                 <div class="col-8" formArrayName="respuestas" *ngFor="let respuesta of getRespuesta(reactivo); let j = index">
                     <div [formGroupName]="j">
                         <div class="input-group form-group row justify-content-end">
-                            <div class="col-9 ">
+                            <div class="col-8 ">
                                 <input type="text" name='{{j}}' [attr.id]="'contenido' + j" class="form-control"
                                     placeholder="Respuesta {{j+1}}">
                             </div>
-                            <div class="input-group-text form-check col-3">
+                            <div class="input-group-text form-check col-1">
                                 <input name="{{i}}" [attr.id]="'correcto' + i" type="radio" value="">
                             </div>
+
+                            <div class="input-group-prepend text-center col-1">
+                                <button *ngIf="getRespuesta(reactivo).length > 1" class="btn btn-danger" type="button" (click)="eliminarRespuesta(i, j)">X</button>
+                            </div>
+
+                            <select class="col-3 form-control" name="tema" id="{{i}}" >
+                                <option value="">Ninguna</option>
+                                <option *ngFor='let item of getReactivo(examen); let k = index' value="{{item}}">Pregunta {{k+1}}</option>
+                            </select>
                         </div>
-
-
                     </div>
 
                 </div>
@@ -69,11 +82,19 @@
 
             </div>
 
+            <div class="row justify-content-end py-5">
+                <hr class="bg-danger border-2 border-top border-danger">
+                <div class="input-group-prepend text-center col-2">
+                    <button *ngIf="getReactivo(examen).length > 1" class="btn btn-danger" type="button" (click)="eliminarReactivo(i)">Eliminar Reactivo</button>
+                </div>
+            </div>
+            
+
         </div>
 
         <div class="row justify-content-end py-5">
             <hr class="bg-danger border-2 border-top border-danger">
-            <div class="input-group-prepend text-center col-9 ">
+            <div class="input-group-prepend text-center col-2">
                 <button class="btn btn-primary" type="button" (click)="agregarReactivo()">Agregar Reactivo</button>
             </div>
         </div>
