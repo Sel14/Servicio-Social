@@ -1,20 +1,29 @@
 <div class="container">
-
-    <h2>Temas</h2>
+    <div class="row">
+        <h2>Temas</h2>
+    </div>
+    
     <ul>
-        <li *ngFor='let elemento of temaList'>
+        <li class="this" *ngFor='let elemento of temaList'>
             <span>{{elemento}}</span>
         </li>
     </ul>
+
     <form>
-        <input type="text" [(ngModel)]="tema" name="temas" placeholder="agregue un nuevo tema" class="form-control">
-        <input class="btn btn-primary " type="submit" value="Agregar Tema" (click)="agregarTema()">
+        <div class="row">
+            <div class="col-9 order-1">
+                <input type="text" [(ngModel)]="tema" name="temas" placeholder="agregue un nuevo tema" class="form-control">
+            </div>
+            <div class="col-3 order-0" >
+                <input class="btn btn-primary " type="submit" value="Agregar Tema" (click)="agregarTema()">
+            </div>
+        </div>
     </form>
     <br>
 
 
-    <div class="form-group row">
-        <div class="col-md-8 offset-md-2">
+    <div class="form-group row d-flex justify-content-end">
+        <div class="col-9 offset-md-2">
             <input type="text" name="examen" id="materia" placeholder="Nombre del examen" class="form-control">
         </div>
     </div>
@@ -22,13 +31,13 @@
     <form [formGroup]='examen'>
 
         <div formArrayName="reactivos" *ngFor="let reactivo of getReactivo(examen); let i = index">
-            <div [formGroupName]="i">
+            <div class="row justify-content-end" [formGroupName]="i">
 
-                <span class="col-md-8 offset-md-2">Pregunta {{i+1}}</span>
-
-                <div id="pr_0">
-                    <div class="form-group row">
-                        <div class="col-md-8 offset-md-2">
+                
+                <div class="col-8" id="pr_0">
+                    <div class="form-group row justify-content-end">
+                        <p class="col-12">Pregunta {{i+1}}</p>
+                        <div class="col-md-12">
                             <input type="text" name="preguntas" [attr.id]="'contenido' + i"
                                 placeholder="Ingrese el contenido de la pregunta" class="form-control">
                         </div>
@@ -37,14 +46,14 @@
 
                 <!--esta es la seccion de las respuestas, se deberián generar n respuestas-->
 
-                <div formArrayName="respuestas" *ngFor="let respuesta of getRespuesta(reactivo); let j = index">
+                <div class="col-8" formArrayName="respuestas" *ngFor="let respuesta of getRespuesta(reactivo); let j = index">
                     <div [formGroupName]="j">
-                        <div class="input-group form-group row">
-                            <div class="col-md-6 offset-md-2">
+                        <div class="input-group form-group row justify-content-end">
+                            <div class="col-9 ">
                                 <input type="text" name='{{j}}' [attr.id]="'contenido' + j" class="form-control"
                                     placeholder="Respuesta {{j+1}}">
                             </div>
-                            <div class="input-group-text form-check">
+                            <div class="input-group-text form-check col-3">
                                 <input name="{{i}}" [attr.id]="'correcto' + i" type="radio" value="">
                             </div>
                         </div>
@@ -53,8 +62,8 @@
                     </div>
 
                 </div>
-                <div class="input-group-prepend text-center offset-lg-5">
-                    <button class="btn btn-primary" type="button" (click)="agregarRespuesta(i)">Agregar Respuesta</button>
+                <div class="col-8 input-group-prepend text-center offset-lg-5 ">
+                    <button class="btn btn-primary w-100" type="button" (click)="agregarRespuesta(i)">Agregar Respuesta</button>
                 </div>
 
 
@@ -62,10 +71,13 @@
 
         </div>
 
-
-        <div class="input-group-prepend text-center offset-lg-5">
-            <button class="btn btn-primary" type="button" (click)="agregarReactivo()">Agregar Reactivo</button>
+        <div class="row justify-content-end py-5">
+            <hr class="bg-danger border-2 border-top border-danger">
+            <div class="input-group-prepend text-center col-9 ">
+                <button class="btn btn-primary" type="button" (click)="agregarReactivo()">Agregar Reactivo</button>
+            </div>
         </div>
+        
     </form>
 
 
