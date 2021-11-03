@@ -15,12 +15,14 @@ export class ExamenComponent implements OnInit {
   constructor(private formBuilder: FormBuilder) { }
 
   examen!: FormGroup;
-  reactivos!: FormArray;
+  //reactivos!: FormArray;
   respuestas!: FormArray; //variable de respuestas
 
   ngOnInit(): void {
     this.examen = new FormGroup({
-      reactivos: new FormArray([])
+      reactivos: new FormArray([
+        this.crearReactivo()
+      ])
     })
   }
 
@@ -44,12 +46,12 @@ export class ExamenComponent implements OnInit {
   }
 
   agregarReactivo(){
-    this.reactivos=this.examen.get('reactivos') as FormArray;
-    this.reactivos.push(this.crearReactivo());
+    const reactivos=this.examen.get('reactivos') as FormArray;
+    reactivos.push(this.crearReactivo());
   }
 
-  getReactivo(){
-    return (this.examen.get('reactivos') as FormArray).controls;
+  getReactivo(form: any){
+    return form.controls.reactivos.controls
   }
 
 
@@ -63,13 +65,14 @@ export class ExamenComponent implements OnInit {
     })
   }
   
-  agregarRespuesta(){
-    this.respuestas=this.respuestas.get('respuestas') as FormArray;
-    this.reactivos.push(this.crearReactivo());
+  agregarRespuesta(i: any){
+    const respuesta = (this.examen.get('reactivos') as FormArray).controls[i].get('respuestas') as FormArray;
+    respuesta.push(this.crearRespuestas())
   }
 
-  getRespuesta(){
-    return (this.reactivos.get('respuestas') as FormArray).controls
+  getRespuesta(form: any){
+    return form.controls.respuestas.controls
+    
   }
   
 }

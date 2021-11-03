@@ -1,5 +1,5 @@
 <div class="container">
-    
+
     <h2>Temas</h2>
     <ul>
         <li *ngFor='let elemento of temaList'>
@@ -21,8 +21,7 @@
 
     <form [formGroup]='examen'>
 
-        <div formArrayName="reactivos"
-            *ngFor="let reactivo of getReactivo(); let i = index">
+        <div formArrayName="reactivos" *ngFor="let reactivo of getReactivo(examen); let i = index">
             <div [formGroupName]="i">
 
                 <span class="col-md-8 offset-md-2">Pregunta {{i+1}}</span>
@@ -36,26 +35,31 @@
                     </div>
                 </div>
 
-                <!--esta es la seccion de las respuestas, se deberián generar n respuestas
-                    
-                    <div formArrayName="respuestas" *ngFor="let respuesta of getRespuesta(); let j = index">
-                    <div [formControlName]="j" >-->
+                <!--esta es la seccion de las respuestas, se deberián generar n respuestas-->
+
+                <div formArrayName="respuestas" *ngFor="let respuesta of getRespuesta(reactivo); let j = index">
+                    <div [formGroupName]="j">
                         <div class="input-group form-group row">
                             <div class="col-md-6 offset-md-2">
-                                <input type="text" name='{{i}}' [attr.id]="'contenido' + i" class="form-control"
-                                    placeholder="Inciso a">
+                                <input type="text" name='{{j}}' [attr.id]="'contenido' + j" class="form-control"
+                                    placeholder="Respuesta {{j+1}}">
                             </div>
                             <div class="input-group-text form-check">
                                 <input name="{{i}}" [attr.id]="'correcto' + i" type="radio" value="">
                             </div>
                         </div>
-    
-                <!-- </div>
-                    
-                </div>-->   
+
+
+                    </div>
+
+                </div>
+                <div class="input-group-prepend text-center offset-lg-5">
+                    <button class="btn btn-primary" type="button" (click)="agregarRespuesta(i)">Agregar Respuesta</button>
+                </div>
 
 
             </div>
+
         </div>
 
 
