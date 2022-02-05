@@ -9,27 +9,59 @@ import { FormArray, FormGroup, FormBuilder, FormControl } from '@angular/forms';
 })
 export class ExamenComponent implements OnInit {
 
-  temaList: Array<{}> = [];
-  tema!:string;
-
   constructor(private formBuilder: FormBuilder) { }
 
   examen!: FormGroup;
-  //reactivos!: FormArray;
-  respuestas!: FormArray; //variable de respuestas
+
 
   ngOnInit(): void {
     this.examen = new FormGroup({
+      unidades: new FormArray([
+        this.crearUnidad()
+      ])
+    })
+  }
+
+  crearUnidad() : FormGroup {
+    return this.formBuilder.group({
+      contenido: "",
+      temas: new FormArray([
+        this.crearTema()
+      ])
+    })
+  }
+
+  agregarUnidad(){
+    const unidades = this.examen.get('unidades') as FormArray;
+    unidades.push(this.crearUnidad());
+  }
+
+  getUnidad(form: any){
+    return form.controls.unidades.controls
+  }
+  
+  crearTema() : FormGroup {
+    return this.formBuilder.group({
+      contenido: "",
       reactivos: new FormArray([
         this.crearReactivo()
       ])
     })
   }
 
+  agregarTema(i: any){
+    const tema = (this.examen.get('unidades') as FormArray).controls[i].get('temas') as FormArray;
+    tema.push(this.crearTema())
+  }
+
+  getTema(form: any){
+    return form.controls.temas.controls
+  }
+  
+  
   crearReactivo() : FormGroup {
     return this.formBuilder.group({
       contenido: "",
-      tema: "",
       nivel: "",
       ra: "",
       preguntaCritica: "",
@@ -39,14 +71,8 @@ export class ExamenComponent implements OnInit {
     })
   }
 
-
-
-  agregarTema(){
-    this.temaList.push(this.tema)
-  }
-
-  agregarReactivo(){
-    const reactivos=this.examen.get('reactivos') as FormArray;
+  agregarReactivo(i: any, j: any){
+    const reactivos=((this.examen.get('unidades') as FormArray).controls[i].get('temas') as FormArray).controls[j].get('reactivos') as FormArray;
     reactivos.push(this.crearReactivo());
   }
 
@@ -65,9 +91,9 @@ export class ExamenComponent implements OnInit {
     })
   }
   
-  agregarRespuesta(i: any){
-    const respuesta = (this.examen.get('reactivos') as FormArray).controls[i].get('respuestas') as FormArray;
-    respuesta.push(this.crearRespuestas())
+  agregarRespuesta(i: any, j:any, k: any){
+    const respuesta = (((this.examen.get('unidades') as FormArray).controls[i].get('temas') as FormArray).controls[j].get('reactivos') as FormArray).controls[k].get('respuestas') as FormArray;
+    respuesta.push(this.crearRespuestas());
   }
 
   getRespuesta(form: any){
@@ -75,14 +101,26 @@ export class ExamenComponent implements OnInit {
     
   }
 
-  eliminarReactivo(i:any){
-    const reactivos=this.examen.get('reactivos') as FormArray;
-    reactivos.removeAt(i);
+
+
+  eliminarUnidad(i: any){
+    const unidad=this.examen.get('unidades') as FormArray;
+    unidad.removeAt(i);
+  }
+
+  eliminarTema(i:any, j:any){
+    const tema = (this.examen.get('unidades') as FormArray).controls[i].get('temas') as FormArray;
+    tema.removeAt(j);
+  }
+
+  eliminarReactivo(i:any, j:any, k: any){
+    const reactivos=((this.examen.get('unidades') as FormArray).controls[i].get('temas') as FormArray).controls[j].get('reactivos') as FormArray;
+    reactivos.removeAt(k);
   }
   
-  eliminarRespuesta(i:any, j:any){
-    const respuesta = (this.examen.get('reactivos') as FormArray).controls[i].get('respuestas') as FormArray;
-    respuesta.removeAt(j);
+  eliminarRespuesta(i:any, j:any, k:any, l:any){
+    const respuesta = (((this.examen.get('unidades') as FormArray).controls[i].get('temas') as FormArray).controls[j].get('reactivos') as FormArray).controls[k].get('respuestas') as FormArray;
+    respuesta.removeAt(l);
   }
 
 }
