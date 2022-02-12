@@ -1,0 +1,3 @@
+Para poder hablar transparentemente con los profesores contamos con un grupo en whatsapp
+Para referir a los correos electrónicos de cada miembro del equipo, se puede refererir al repositorio en github: https://github.com/Sel14/Servicio-Social en donde encontrará un enlace en la sección de readme.md collaborators donde aparece "envíame un mail", clickeando se abrirá automáticamente su gestor prederminado de correo para comunicarse con nosotros. 
+Contamos con un grupo en slack con el grupo técnico que colabora en la construcción, análisis y diseño del proyecto serviciosocialcentral.slack.com
