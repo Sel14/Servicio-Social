@@ -44,4 +44,7 @@
       <li>Gestionar mediante la herramiento kanba integrada en github las tareas asignadas y los objetivos cumplidos</li>
     </ol>
   </article>  
+  <article>
+    La organización del proyecto puede revisarse dentro de la carpeta Organización, ahí se encontrara un gant.json, el cual deberá cargarse para abrirse en https://carleslc.me/Gantt/# 
+  </article>
 </section>
