@@ -14,7 +14,7 @@
     </li></ul>
   </li>
   <li>
-    <a href="#">Suemy Castillo</a>
+    <a href="#">Suemi Castillo</a>
     <ul><li>
       <a href="mailto:suemi.asahina@gmail.com?subject=Servicio Social ">Envíame un mail/a>
     </li></ul>
