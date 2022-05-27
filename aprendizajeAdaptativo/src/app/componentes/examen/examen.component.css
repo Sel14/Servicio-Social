@@ -1,0 +1,38 @@
+.unidad{
+    background-color: #CED4DA;
+    margin-top: 10px;
+    border-style: solid;
+}
+
+.temas{
+    background-color: white;
+    border-style: solid;
+    margin-top: 10px;
+}
+
+.reactivo{
+    background-color: #CED4DA;
+    border-color: black;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 10px;
+    border-style: solid;
+}
+
+.respuesta{
+    background-color: white;
+    padding-top: 10px;
+    border-style: solid;
+}
+
+.addbtn{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: #2D2558;
+    color: white;
+    text-align: center;
+}
+
+select{
+    margin-left: 10px;
+}

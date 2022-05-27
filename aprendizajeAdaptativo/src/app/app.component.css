@@ -1,0 +1,13 @@
+.mat-drawer {
+    width: 200px;
+    border-color: black;
+    color: white;
+    padding: 16px;
+    text-align: center;
+    display: flex;
+}
+
+.mat-drawer-content {
+    margin: 16px;
+    margin-left: 32px;
+}
