@@ -6,13 +6,15 @@ import { LoginComponent } from './componentes/login/login.component';
 import { InicioComponent } from './componentes/inicio/inicio.component';
 import { CrearPreguntaComponent } from './componentes/crear-pregunta/crear-pregunta.component';
 import { VerPreguntasComponent } from './componentes/ver-preguntas/ver-preguntas.component';
+import { UnidadesComponent } from './componentes/unidades/unidades.component';
 
 const routes: Routes = [
   { path: 'examen', component: ExamenComponent },
   { path: 'login', component:LoginComponent},
   { path: '', component:InicioComponent},
   { path: 'crear', component:CrearPreguntaComponent },
-  { path: 'ver', component:VerPreguntasComponent}
+  { path: 'ver', component:VerPreguntasComponent},
+  { path: 'unidades', component:UnidadesComponent}
 
 ];
 
