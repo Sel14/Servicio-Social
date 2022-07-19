@@ -11,7 +11,9 @@ import { LoginComponent } from './componentes/login/login.component';
 import { HeaderComponent } from './componentes/header/header.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule} from '@angular/material/sidenav';
-import { InicioComponent } from './componentes/inicio/inicio.component'
+import { InicioComponent } from './componentes/inicio/inicio.component';
+import { CrearPreguntaComponent } from './componentes/crear-pregunta/crear-pregunta.component';
+import { VerPreguntasComponent } from './componentes/ver-preguntas/ver-preguntas.component'
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { InicioComponent } from './componentes/inicio/inicio.component'
     SidenavComponent,
     LoginComponent,
     HeaderComponent,
-    InicioComponent
+    InicioComponent,
+    CrearPreguntaComponent,
+    VerPreguntasComponent
   ],
   imports: [
     BrowserModule,
