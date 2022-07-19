@@ -95,7 +95,7 @@
 
                           <!--esta es la seccion de las respuestas, se deberián generar n respuestas-->
                           <div class="respuesta col-11" formArrayName="respuestas" *ngFor="
-                      let respuesta of getRespuesta(reactivo); let j = index">
+                            let respuesta of getRespuesta(reactivo); let j = index">
                             <div [formGroupName]="j">
                               <div class="input-group form-group  justify-content-center">
                                 <div class="col-8">
@@ -106,16 +106,17 @@
                                   <input name="{{ i }}" [attr.id]="'correcto' + i" type="radio" value="" />
                                 </div>
 
+                                <!--
                                 <select class="col-3 form-control" name="preguntaSiguiente" id="{{ j }}">
                                   <option value="">Ninguna</option>
                                   <option *ngFor="
-                              let item of getReactivo(tema);
-                              let z = index
-                            " value="{{ item }}">
+                                      let item of getReactivo(tema);
+                                      let z = index
+                                        " value="{{ item }}">
                                     Pregunta {{ z + 1 }}
                                   </option>
                                 </select>
-
+                                    -->
                                 <div class="input-group-prepend text-center col-1">
                                   <button *ngIf="getRespuesta(reactivo).length > 1" class="btn btn-danger" type="button"
                                     (click)="eliminarRespuesta(l, k, i, j)">

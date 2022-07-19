@@ -12,7 +12,9 @@ import { HeaderComponent } from './componentes/header/header.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule} from '@angular/material/sidenav';
 import { InicioComponent } from './componentes/inicio/inicio.component';
-import { UnidadesComponent } from './componentes/unidades/unidades.component'
+import { UnidadesComponent } from './componentes/unidades/unidades.component';
+import { CrearPreguntaComponent } from './componentes/crear-pregunta/crear-pregunta.component';
+import { VerPreguntasComponent } from './componentes/ver-preguntas/ver-preguntas.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { UnidadesComponent } from './componentes/unidades/unidades.component'
     LoginComponent,
     HeaderComponent,
     InicioComponent,
-    UnidadesComponent
+    UnidadesComponent,
+    CrearPreguntaComponent,
+    VerPreguntasComponent,
   ],
   imports: [
     BrowserModule,
