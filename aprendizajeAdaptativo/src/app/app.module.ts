@@ -11,7 +11,8 @@ import { LoginComponent } from './componentes/login/login.component';
 import { HeaderComponent } from './componentes/header/header.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule} from '@angular/material/sidenav';
-import { InicioComponent } from './componentes/inicio/inicio.component'
+import { InicioComponent } from './componentes/inicio/inicio.component';
+import { UnidadesComponent } from './componentes/unidades/unidades.component'
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { InicioComponent } from './componentes/inicio/inicio.component'
     SidenavComponent,
     LoginComponent,
     HeaderComponent,
-    InicioComponent
+    InicioComponent,
+    UnidadesComponent
   ],
   imports: [
     BrowserModule,

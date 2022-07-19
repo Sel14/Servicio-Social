@@ -1,11 +1,15 @@
 <div>
-    <app-header></app-header>
-    <mat-drawer-container class="example-container">
-        <mat-drawer mode="side" opened>
-          <app-sidenav></app-sidenav>
-        </mat-drawer>
-        <mat-drawer-content><router-outlet></router-outlet></mat-drawer-content>
-        
-      </mat-drawer-container>
-    
+  <app-header></app-header>
+  <mat-drawer-container class="example-container">
+    <mat-drawer mode="side" opened>
+      <app-sidenav></app-sidenav>
+    </mat-drawer>
+    <mat-drawer-content>
+      <router-outlet></router-outlet>
+      <div>
+        <app-unidades></app-unidades>
+      </div>
+    </mat-drawer-content>
+
+  </mat-drawer-container>
 </div>
