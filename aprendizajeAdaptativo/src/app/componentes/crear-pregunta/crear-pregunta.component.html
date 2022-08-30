@@ -1,18 +1,18 @@
 <div class="container col-12">
   <div class="form-group row d-flex justify-content-center" id="tituloexamen">
-  
-      
+
+
     <div class="col-6">
 
-    <select name="unidad" (change)="cambiarUnidad($event)" class="form-control">
-			<option>--Seleccione Unidad--</option>
-			<option *ngFor="let unidad of unidad">{{unidad.nombre}}</option>
-		</select>
+      <select name="unidad" (change)="cambiarUnidad($event)" class="form-control">
+        <option>--Seleccione Unidad--</option>
+        <option *ngFor="let unidad of unidad">{{unidad.nombre}}</option>
+      </select>
     </div>
-    
+
     <select type="text" name="tema" id="tema" class="form-control col-6">
       <option>--Seleccione un Tema--</option>
-			<option *ngFor="let tema of temas">{{tema}}</option>
+      <option *ngFor="let tema of temas">{{tema}}</option>
     </select>
 
   </div>
@@ -30,12 +30,11 @@
       <div class="row justify-content-center" [formGroupName]="i">
 
         <div class="pregunta col-12">
-          <div class="form-group row" id="titulotema">
-            <p class="col ">Pregunta {{ i + 1 }}</p>
+          <div class="form-group row" id="contPregrunta">
 
             <!--boton para eliminar un reactivo-->
             <div class="justify-content-end">
-              <div class="input-group-prepend text-center">
+              <div class="text-center">
                 <button *ngIf="getReactivo(examen).length > 1" class="btn btn-danger" type="button"
                   (click)="eliminarReactivo(i)">
                   Eliminar Reactivo
@@ -43,30 +42,56 @@
               </div>
             </div>
 
+
+
             <div class="col-md-12 input-group form-group">
-              <div class="col-11">
+
+              <div class=""></div>
+              <!--contenido-->
+              <div class="col-10">
+                <label>Pregunta {{ i + 1 }}</label>
                 <input type="text" name="preguntas" [attr.id]="'contenido' + i"
-                placeholder="Ingrese el contenido de la pregunta" class="cont-pregunta form-control" />
+                  placeholder="Ingrese el contenido de la pregunta" class="cont-pregunta form-control" />
               </div>
-              <div class="cont input-group-text form-check">
-                <div>
-                  <label class="check-label">3</label>
-                  <input class="check-box"  name="dificultad {{i}}" [attr.id]="'dificultad' + i" type="radio" value="3" />
+
+              <!--check box-->
+
+              <div>
+                <div class="cont input-group-text form-check">
+                  <div>
+                    <label class="check-label">3</label>
+                    <input class="check-box" name="dificultad {{i}}" [attr.id]="'dificultad' + i" type="radio"
+                      value="3" />
+                  </div>
+                  <div>
+                    <label class="check-label">2</label>
+                    <input class="check-box" name="dificultad {{i}}" [attr.id]="'dificultad' + i" type="radio"
+                      value="2" />
+                  </div>
+                  <div>
+                    <label class="check-label">1</label>
+                    <input class="check-box" name="dificultad {{i}}" [attr.id]="'dificultad' + i" type="radio"
+                      value="1" />
+                  </div>
+
+
                 </div>
+
                 <div>
-                  <label class="check-label">2</label>
-                  <input class="check-box"  name="dificultad {{i}}" [attr.id]="'dificultad' + i" type="radio" value="2" />
-                </div> 
-                <div>
-                  <label class="check-label">1</label>
-                  <input class="check-box" name="dificultad {{i}}" [attr.id]="'dificultad' + i" type="radio" value="1" />
-                </div>  
+                  <label class="check-label">requiere procediemiento</label>
+                  <input class="check-box" name="procedimiento" [attr.id]="'procedimiento'" type="checkbox" value="" />
+                </div>
               </div>
+
+
             </div>
+
+
+
           </div>
         </div>
 
-        <!--esta es la seccion de las respuestas, se deberián generar n respuestas-->
+        <!--esta es la seccion de las respuestas, se deberián generar 4 respuestas-->
         <div class="respuesta col-11" formArrayName="respuestas" *ngFor="
                             let respuesta of getRespuesta(reactivo); let j = index">
           <div [formGroupName]="j">

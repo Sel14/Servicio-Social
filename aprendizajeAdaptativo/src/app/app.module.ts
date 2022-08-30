@@ -15,6 +15,7 @@ import { InicioComponent } from './componentes/inicio/inicio.component';
 import { UnidadesComponent } from './componentes/unidades/unidades.component';
 import { CrearPreguntaComponent } from './componentes/crear-pregunta/crear-pregunta.component';
 import { VerPreguntasComponent } from './componentes/ver-preguntas/ver-preguntas.component';
+import { MateriaComponent } from './componentes/materia/materia.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { VerPreguntasComponent } from './componentes/ver-preguntas/ver-preguntas
     UnidadesComponent,
     CrearPreguntaComponent,
     VerPreguntasComponent,
+    MateriaComponent,
   ],
   imports: [
     BrowserModule,

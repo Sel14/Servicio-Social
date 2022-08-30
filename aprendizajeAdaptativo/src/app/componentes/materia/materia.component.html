@@ -1,0 +1,22 @@
+<h1>{{ nombreMateria }}</h1>
+
+
+<div class="">
+    <button class="addbtn btn w-70">Crear Examen</button>
+    <button class="addbtn btn w-70" type="button">Unidades y temas</button>
+    <button class="addbtn btn">Preguntas</button>
+</div>
+
+
+<div *ngFor="let examen of examenes">
+<div class="card">
+    <div class="card-body">
+        <a href="/materia">{{examen.nombre}}</a>
+        Alumnos que han presentado: {{examen.presentados}}/{{examen.asignados}}
+        Examen disponible: {{examen.disponible}}
+    </div>
+    
+  </div>
+</div>
+
+

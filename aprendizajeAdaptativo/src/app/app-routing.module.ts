@@ -7,6 +7,7 @@ import { InicioComponent } from './componentes/inicio/inicio.component';
 import { CrearPreguntaComponent } from './componentes/crear-pregunta/crear-pregunta.component';
 import { VerPreguntasComponent } from './componentes/ver-preguntas/ver-preguntas.component';
 import { UnidadesComponent } from './componentes/unidades/unidades.component';
+import { MateriaComponent } from './componentes/materia/materia.component';
 
 const routes: Routes = [
   { path: 'examen', component: ExamenComponent },
@@ -14,7 +15,8 @@ const routes: Routes = [
   { path: '', component:InicioComponent},
   { path: 'crear', component:CrearPreguntaComponent },
   { path: 'ver', component:VerPreguntasComponent},
-  { path: 'unidades', component:UnidadesComponent}
+  { path: 'unidades', component:UnidadesComponent},
+  { path: 'materia', component:MateriaComponent}
 
 ];
 

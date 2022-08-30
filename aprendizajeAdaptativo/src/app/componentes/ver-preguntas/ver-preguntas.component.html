@@ -1,1 +1,135 @@
-<p>ver-preguntas works!</p>
+<div class="container col-12">
+  <div class="form-group row d-flex justify-content-center">
+
+
+    <div class="col-6">
+      <select name="unidad" class="form-control" (change)="cambiarUnidad($event)">
+        <option>--Seleccione Unidad--</option>
+        <option *ngFor="let unidad of unidad">{{unidad.nombre}}</option>
+      </select>
+
+    </div>
+
+
+    <select type="text" name="tema" id="tema" class="form-control col-6" (change)="cambiarTema($event)">
+      <option>--Seleccione un Tema--</option>
+      <option *ngFor="let tema of temas">{{tema.nombre}}</option>
+    </select>
+    <br>
+    <br>
+
+    
+    <div class="container">
+      <div class="centrar">
+        <button class="btn btn-warning">agregar pregunta
+        </button>
+      </div>
+
+    </div>
+
+
+    <div class="container" *ngFor="let pregunta of preguntas">
+
+      <div class="col-12 card">
+        <div class="card-body">
+          
+          <div class="fondo">
+            <label class="pregunta" for="">
+              {{pregunta.contenido}}
+            </label>
+          </div>
+          
+          
+          <div *ngFor="let respuesta of pregunta.respuestas">
+            <div *ngFor=" let a of respuesta[0]">
+              <label>{{a.contenido}}</label>
+              <input class="check-box" type="radio" disabled [checked]="a.correcto">
+            </div>
+
+            <div *ngFor=" let b of respuesta[1]">
+              <label>{{b.contenido}}</label>
+              <input class="check-box" type="radio" disabled [checked]="b.correcto">
+            </div>
+
+            <div *ngFor=" let c of respuesta[2]">
+              <label>{{c.contenido}}</label>
+              <input class="check-box" type="radio" disabled [checked]="c.correcto">
+            </div>
+
+            <div *ngFor=" let d of respuesta[3]">
+              <label>{{d.contenido}}</label>
+              <input class="check-box" type="radio" disabled [checked]="d.correcto">
+            </div>
+          </div>
+
+          <div class="fondo">
+            <button class="btn btn-warning" (click)="open(content)">Editar</button>
+
+            <label class="pregunta">Requiere procedimiento</label>
+            <input class="check-box" type="radio" disabled [checked]="pregunta.procedimiento">
+          </div>
+
+        </div>
+      </div>
+
+      <!--Modal para editar una pregunta-->
+      <ng-template #content let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Edición de pregunta</h4>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="contenido">Contenido</label>
+              <div class="input-group">
+                <input type="text" id="contenido" class="form-control" [value]="pregunta.contenido" name="cont"> 
+                
+                <div class="cont input-group-text form-check">
+                  <div>
+                    <label class="check-label">3</label>
+                    <input class="check-box" name="dificultad" type="radio"
+                      value="3" [checked]="check(3, pregunta.dificultad)"/>
+                  </div>
+                  <div>
+                    <label class="check-label">2</label>
+                    <input class="check-box" name="dificultad" type="radio"
+                      value="2" [checked]="check(2, pregunta.dificultad)"/>
+                  </div>
+                  <div>
+                    <label class="check-label">1</label>
+                    <input class="check-box" name="dificultad" type="radio"
+                      value="1" [checked]="check(1, pregunta.dificultad)"/>
+                  </div>
+                </div>
+
+                <label class="check-label">Requiere procedimiento</label>
+                    <input class="check-box" name="dificultad" type="radio"
+                      value="" [checked]="pregunta.procedimeinto"/>
+
+              </div>
+
+
+              <div>
+                <label for="respuesta">Respuestas</label>
+              <div class="input-group">
+                <input id="respuesta" class="form-control" [value]="pregunta.contenido" name="pC">  
+              </div>
+              </div>
+              
+
+              
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+        </div>
+      </ng-template>
+
+    </div>
+
+
+
+  </div>
+</div>

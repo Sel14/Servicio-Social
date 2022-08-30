@@ -1,0 +1,15 @@
+.centrar{
+    text-align: center;
+}
+
+.fondo{
+    background-color: #2D2558;
+}
+
+.pregunta{
+    color: white;
+}
+
+.check-label {
+    display: table-row;
+}
