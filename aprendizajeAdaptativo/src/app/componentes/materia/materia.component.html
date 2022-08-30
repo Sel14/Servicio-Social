@@ -1,0 +1,42 @@
+<h1>{{ nombreMateria }}</h1>
+
+
+<div class="col-12" style="align-items: right;">
+    <button class="addbtn btn w-30" type="submit" routerLink="/examen">Crear Examen</button>
+    <button class="addbtn btn w-30" type="submit" routerLink="/ver">Preguntas</button>
+    <button class="addbtn btn w-30" type="submit" routerLink="/unidades">Unidades y temas</button>
+</div>
+<br>
+
+<div class="col-12">
+    <hr>
+    <h2>Exámenes existentes</h2>
+    <hr>
+</div>
+<div class="col-12">
+    <div *ngFor="let examen of examenes">
+        <div class="card">
+            <div class="card-body">
+                <a href="/materia">{{examen.nombre}}</a>
+                Alumnos que han presentado: {{examen.presentados}}/{{examen.asignados}}
+                <div>
+                    Examen disponible:
+                    <div *ngIf="examen.disponible==true; then thenBlock else elseBlock"></div>
+                    <ng-template #thenBlock>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </ng-template>
+                    <ng-template #elseBlock><label class="switch">
+                            <input type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                    </ng-template>
+                    <button class="addbtn btn w-30" type="submit" routerLink="/examen">Editar</button>
+                    <button class="addbtn btn w-30" type="submit" routerLink="/materia">Ver resultados</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

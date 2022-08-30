@@ -1,0 +1,144 @@
+<div class="container col-12">
+  <div class="form-group row d-flex justify-content-center" id="tituloexamen">
+
+
+    <div class="col-6">
+
+      <select name="unidad" (change)="cambiarUnidad($event)" class="form-control">
+        <option>--Seleccione Unidad--</option>
+        <option *ngFor="let unidad of unidad">{{unidad.nombre}}</option>
+      </select>
+    </div>
+
+    <select type="text" name="tema" id="tema" class="form-control col-6">
+      <option>--Seleccione un Tema--</option>
+      <option *ngFor="let tema of temas">{{tema}}</option>
+    </select>
+
+  </div>
+</div>
+
+<form class="containerjustify-content-center" [formGroup]="examen">
+  <!--seccion de unidad-->
+
+
+
+  <!--seccion de reactivos-->
+  <div class="col">
+    <div class="reactivo col-md-12" formArrayName="reactivos"
+      *ngFor="let reactivo of getReactivo(examen); let i = index">
+      <div class="row justify-content-center" [formGroupName]="i">
+
+        <div class="pregunta col-12">
+          <div class="form-group row" id="contPregrunta">
+
+            <!--boton para eliminar un reactivo-->
+            <div class="justify-content-end col-12">
+              <div class="text-center" style="float: right;">
+                <button *ngIf="getReactivo(examen).length > 1" class="btn btn-danger" type="button"
+                  (click)="eliminarReactivo(i)">
+                  Eliminar Reactivo
+                </button>
+              </div>
+            </div>
+
+
+
+            <div class="col-md-12 input-group form-group">
+
+              <div class=""></div>
+              <!--contenido-->
+              <div class="col-10">
+                <label style="margin-top: 5px;">Pregunta {{ i + 1 }}</label>
+                <input type="text" name="preguntas" [attr.id]="'contenido' + i"
+                  placeholder="Ingrese el contenido de la pregunta" class="cont-pregunta form-control" />
+              </div>
+
+              <!--check box-->
+
+              <div>
+                <div class="cont input-group-text form-check">
+                  <div>
+                    <label class="check-label">3</label>
+                    <input class="check-box" name="dificultad {{i}}" [attr.id]="'dificultad' + i" type="radio"
+                      value="3" />
+                  </div>
+                  <div>
+                    <label class="check-label">2</label>
+                    <input class="check-box" name="dificultad {{i}}" [attr.id]="'dificultad' + i" type="radio"
+                      value="2" />
+                  </div>
+                  <div>
+                    <label class="check-label">1</label>
+                    <input class="check-box" name="dificultad {{i}}" [attr.id]="'dificultad' + i" type="radio"
+                      value="1" />
+                  </div>
+
+
+                </div>
+
+                <div>
+                  <label class="check-label">requiere procediemiento</label>
+                  <input class="check-box" name="procedimiento" [attr.id]="'procedimiento'" type="checkbox" value="" />
+                </div>
+              </div>
+
+
+            </div>
+
+
+
+          </div>
+        </div>
+
+        <!--esta es la seccion de las respuestas, se deberián generar 4 respuestas-->
+        <div class="respuesta col-11" formArrayName="respuestas" *ngFor="
+                            let respuesta of getRespuesta(reactivo); let j = index">
+          <div [formGroupName]="j">
+            <div class="input-group form-group  justify-content-center">
+              <div class="col-8">
+                <input type="text" name="{{ j }}" [attr.id]="'contenido' + j" class="form-control"
+                  placeholder="Respuesta {{ j + 1 }}" />
+              </div>
+              <div class="input-group-text form-check">
+                <input name="{{ i }}" [attr.id]="'correcto' + i" type="radio" value="" />
+              </div>
+
+
+              <div class="input-group-prepend text-center col-1">
+                <button *ngIf="getRespuesta(reactivo).length > 1" class="btn btn-danger" type="button"
+                  (click)="eliminarRespuesta(i, j)">
+                  x
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-10 input-group-prepend">
+          <button *ngIf="getRespuesta(reactivo).length < 4" class="addbtn btn w-70" id="butresp" type="button"
+            (click)="agregarRespuesta(i)">
+            Agregar Respuesta
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="container col-12 parabotones justify-content-center">
+      <div class="col-8 input-group-prepend justify-content-center">
+        <button class="addbtn btn btn-danger w-30">
+          Descartar Cambios
+        </button>
+        <button class="addbtn btn w-30" type="button" (click)="agregarReactivo()">
+          Agregar Reactivo
+        </button>
+        <button class="addbtn btn">
+          Guardar Cambios
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+</form>
