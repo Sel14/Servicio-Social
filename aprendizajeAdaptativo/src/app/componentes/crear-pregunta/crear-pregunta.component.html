@@ -33,8 +33,8 @@
           <div class="form-group row" id="contPregrunta">
 
             <!--boton para eliminar un reactivo-->
-            <div class="justify-content-end">
-              <div class="text-center">
+            <div class="justify-content-end col-12">
+              <div class="text-center" style="float: right;">
                 <button *ngIf="getReactivo(examen).length > 1" class="btn btn-danger" type="button"
                   (click)="eliminarReactivo(i)">
                   Eliminar Reactivo
@@ -49,7 +49,7 @@
               <div class=""></div>
               <!--contenido-->
               <div class="col-10">
-                <label>Pregunta {{ i + 1 }}</label>
+                <label style="margin-top: 5px;">Pregunta {{ i + 1 }}</label>
                 <input type="text" name="preguntas" [attr.id]="'contenido' + i"
                   placeholder="Ingrese el contenido de la pregunta" class="cont-pregunta form-control" />
               </div>
@@ -124,12 +124,10 @@
     </div>
     <div class="container col-12 parabotones justify-content-center">
       <div class="col-8 input-group-prepend justify-content-center">
-
-        <p>&nbsp;&nbsp;&nbsp;</p>
-        <button class="btn btn-danger w-70">
+        <button class="addbtn btn btn-danger w-30">
           Descartar Cambios
         </button>
-        <button class="addbtn btn w-70" type="button" (click)="agregarReactivo()">
+        <button class="addbtn btn w-30" type="button" (click)="agregarReactivo()">
           Agregar Reactivo
         </button>
         <button class="addbtn btn">

@@ -13,6 +13,17 @@ export class ExamenComponent implements OnInit {
 
   examen!: FormGroup;
 
+  unidad: Array<any> = [
+    { nombre: 'unidad 1', temas: ['tema 1', 'tema 2'] },
+    { nombre: 'unidad 2', temas: ['tema 3', 'tema 4'] },
+  ];
+
+  temas: Array<any> = [];
+
+  cambiarUnidad(unidad: any) {
+    this.temas = this.unidad.find((undad: any) => undad.nombre == unidad.target.value).temas;
+  }
+
 
   ngOnInit(): void {
     this.examen = new FormGroup({
