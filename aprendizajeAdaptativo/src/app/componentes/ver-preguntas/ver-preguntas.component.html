@@ -14,9 +14,9 @@
     <br />
     <br />
 
-    <div class="container">
+    <div class="container col-12">
       <div class="centrar">
-        <button class="btn btn-warning"  type="submit" routerLink="/crear">agregar pregunta
+        <button class="btn btn-warning" type="submit" routerLink="/crear">Agregar pregunta
         </button>
       </div>
     </div>
@@ -52,13 +52,15 @@
             </div>
           </div>
 
-          <div class="fondo">
-            <button class="btn btn-warning" (click)="open(content)">
-              Editar
-            </button>
+          <div class="fondo col-12" style="float: right;">
 
-            <label class="pregunta">Requiere procedimiento</label>
-            <input class="check-box" type="radio" disabled [checked]="pregunta.procedimiento" />
+            <div class="col-12" style="float: right;">
+              <button class="btn btn-warning col-2" (click)="open(content)" style="float: right;">
+                Editar
+              </button>
+              <label class="pregunta" style="margin: 3px;">Requiere procedimiento</label>
+              <input class="check-box" type="radio" disabled [checked]="pregunta.procedimiento" />
+            </div>
           </div>
         </div>
       </div>
@@ -102,8 +104,9 @@
                 <label class="form-check-label" for="procedimiento">
                   Requiere procedimiento
                 </label>
-                <input class="form-check-input" name="procedimiento" type="checkbox" value="" [checked]="pregunta.procedimiento">
-                
+                <input class="form-check-input" name="procedimiento" type="checkbox" value=""
+                  [checked]="pregunta.procedimiento">
+
               </div>
             </div>
 

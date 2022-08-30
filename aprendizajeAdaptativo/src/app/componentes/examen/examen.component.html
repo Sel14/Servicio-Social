@@ -35,7 +35,7 @@
             </div>
 
             <div class="col-12">
-              <select name="unidad" (change)="cambiarUnidad($event)" class="form-control">
+              <select name="unidad" (click)="cambiarUnidad($event)" class="form-control">
                 <option>--Seleccione Unidad--</option>
                 <option *ngFor="let unidad of unidad">{{unidad.nombre}}</option>
               </select>
