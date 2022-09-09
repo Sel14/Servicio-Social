@@ -17,6 +17,14 @@ import { CrearPreguntaComponent } from './componentes/crear-pregunta/crear-pregu
 import { VerPreguntasComponent } from './componentes/ver-preguntas/ver-preguntas.component';
 import { MateriaComponent } from './componentes/materia/materia.component';
 
+import { QuillModule } from 'ngx-quill'
+import { CKEditorModule } from 'ckeditor4-angular';
+import { IonicMathliveModule } from 'ionic-mathlive';
+import MathliveBlot from './mathlive-blot';
+import Quill from 'quill';
+
+Quill.register(MathliveBlot)
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,6 +46,9 @@ import { MateriaComponent } from './componentes/materia/materia.component';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatSidenavModule,
+    QuillModule.forRoot(),
+    CKEditorModule,
+    IonicMathliveModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -50,8 +50,14 @@
               <!--contenido-->
               <div class="col-10">
                 <label style="margin-top: 5px;">Pregunta {{ i + 1 }}</label>
-                <input type="text" name="preguntas" [attr.id]="'contenido' + i"
-                  placeholder="Ingrese el contenido de la pregunta" class="cont-pregunta form-control" />
+                <!-- <input type="text" name="preguntas" [attr.id]="'contenido' + i"
+                  placeholder="Ingrese el contenido de la pregunta" class="cont-pregunta form-control" /> -->
+                  <quill-editor [styles]="editorStyle"  [modules]="editorOptions" (onEditorCreated)="onEditorCreated($event)"></quill-editor>
+                  <!-- <quill-editor [styles]="{height: '200px'}"></quill-editor> -->
+                  <!-- <quill-editor (onEditorCreated)="onEditorCreated($event)"></quill-editor> -->
+                  <!-- <ckeditor data="<p>Hello, world!</p>"></ckeditor> -->
+                  <!-- <ionic-mathlive>
+                  </ionic-mathlive> -->
               </div>
 
               <!--check box-->
