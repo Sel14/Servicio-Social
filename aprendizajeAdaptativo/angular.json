@@ -27,14 +27,30 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/ngx-mathquill/mathquill/",
+                "output": "./mathquill/"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/mathlive/dist/fonts",
+                "output": "/assets/mathlive/fonts"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/mathlive/dist/sounds",
+                "output": "/assets/mathlive/sounds"
+              }
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.css"
+              "src/styles.css",
+            "./node_modules/quill/dist/quill.snow.css"
             ],
-            "scripts": []
+            "scripts": [ "./node_modules/quill/dist/quill.min.js","./node_modules/jquery/dist/jquery.js"]
           },
           "configurations": {
             "production": {

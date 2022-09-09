@@ -1,5 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormGroup, FormBuilder } from '@angular/forms';
+import {MathQuillLoader} from 'ngx-mathquill';
+import Quill from 'quill';
+import katex from "katex";
+import "katex/dist/katex.min.css";
+import MathliveBlot from 'src/app/mathlive-blot';
+// @ts-ignore
+window.katex = katex;
+
+
+MathQuillLoader.loadMathQuill(mathquill => {
+
+  // do what you want here
+  // for example:
+  console.log(mathquill.getInterface(2));
+
+});
+
 
 @Component({
   selector: 'app-crear-pregunta',
@@ -12,6 +29,7 @@ export class CrearPreguntaComponent implements OnInit {
   constructor(private formBuilder: FormBuilder) { }
 
   examen!: FormGroup;
+
 
   //Parte para selecionar unidad y tema
   unidad: Array<any> = [
@@ -47,6 +65,37 @@ export class CrearPreguntaComponent implements OnInit {
       ])
     })
   }
+  public onEditorCreated(quill: Quill) {
+    console.log("event",quill);
+    this.enableMathLive(quill);  // Insert MathLive field when the formula button is clicked.
+  }
+
+  // Sets a handler for the formula button in quill toolbar to insert a mathlive blot.
+  enableMathLive(quill: Quill) {
+    //quill.insertEmbed(1, 'mathlive', 'INSERT', 'user');
+    console.log("heree");
+    const toolbar = quill.getModule('toolbar')
+    toolbar.addHandler('formula', ()=>this.formulaHandler(quill));
+  }
+
+  formulaHandler(quill:Quill){
+      const range = quill.getSelection() || { index: quill.getLength() - 1 };
+      let cursorPos = range.index;  // Get cursor position.
+      console.log('insert MathLive Blot into quill.');
+    quill.insertEmbed(cursorPos, "mathlive", "");
+  }
+
+  editorOptions= {
+    toolbar: [['formula']]
+};
+editorStyle = {
+  height: '300px',
+  backgroundColor: '#ffffff',
+  color:'black',
+  fontSize:'20px',
+  fontWeight:'500',
+  pointer:'cursor'
+}
 
   agregarReactivo() {
     const reactivos = this.examen.get('reactivos') as FormArray
