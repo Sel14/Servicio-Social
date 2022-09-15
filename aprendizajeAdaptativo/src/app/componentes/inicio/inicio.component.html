@@ -1,2 +1,62 @@
-<h3>Bienvenido</h3>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<h1>Bienvenido {{ usuario }}</h1>
+
+<div class="col-12" style="align-items: right">
+  <button class="addbtn btn w-30" (click)="open(content)">Crear Examen</button>
+</div>
+<br />
+
+<div class="col-12">
+  <hr />
+  <h2>Tus materias</h2>
+  <hr />
+</div>
+<div class="col-12">
+  <div *ngFor="let materias of materias">
+    <div class="card">
+      <div class="card-body">
+        <a href="/materia">{{ materias.nombre }}</a>
+        <div>
+          <button class="addbtn btn w-30" type="submit" routerLink="/">
+            Editar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Contenido de la modal para crear una materia-->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Edición de pregunta</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <!--El form guarda la información para crear una materia
+  se crear el formGroup para relacionarlo con el formBuilder en el typescrip
+  El formControlName es para el identificardor dentro del form
+  para ver los datos se tiene actualmente se ve en la consola del navegador-->
+  <form class="mb-3" [formGroup]="materia" (ngSubmit)="guardar()">
+    <div class="modal-body">
+      <label for="contenido">Introduzca los datos</label>
+      <input type="text" placeholder="nombre de la materia" formControlName="nombre" required=""/>
+    </div>
+
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-outline-dark">Guardar</button>
+      <button
+        type="button"
+        class="btn btn-outline-dark"
+        (click)="modal.close('Save click')"
+      >
+        Cancelar
+      </button>
+    </div>
+  </form>
+</ng-template>
+
+<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />

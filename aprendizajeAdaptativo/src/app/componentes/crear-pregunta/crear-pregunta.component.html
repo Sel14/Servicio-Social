@@ -1,3 +1,12 @@
+<!--
+  Es un desmadre xd
+  El formGroup es para identificar el formulario principal
+  formGroupName es para los formularios reactivos, reactivos y respuestas
+  sirve para identificarlos por posición
+  formArrayName es para vincular los formuarios reactivos por nombre y saber que datos lleva
+
+-->
+
 <div class="container col-12">
   <div class="form-group row d-flex justify-content-center" id="tituloexamen">
 
@@ -50,7 +59,7 @@
               <!--contenido-->
               <div class="col-10">
                 <label style="margin-top: 5px;">Pregunta {{ i + 1 }}</label>
-                <input type="text" name="preguntas" [attr.id]="'contenido' + i"
+                <input type="text" name="preguntas" [attr.id]="'contenido' + i" formControlName="contenido"
                   placeholder="Ingrese el contenido de la pregunta" class="cont-pregunta form-control" />
               </div>
 
@@ -60,18 +69,20 @@
                 <div class="cont input-group-text form-check">
                   <div>
                     <label class="check-label">3</label>
-                    <input class="check-box" name="dificultad {{i}}" [attr.id]="'dificultad' + i" type="radio"
-                      value="3" />
+                    <input class="check-box form-control" [attr.id]="'nivel' + i" formControlName="nivel" type="radio"
+                      [value]="3" />
                   </div>
+
                   <div>
                     <label class="check-label">2</label>
-                    <input class="check-box" name="dificultad {{i}}" [attr.id]="'dificultad' + i" type="radio"
-                      value="2" />
+                    <input class="check-box form-control" [attr.id]="'nivel' + i" formControlName="nivel" type="radio"
+                      [value]="2" />
                   </div>
+
                   <div>
                     <label class="check-label">1</label>
-                    <input class="check-box" name="dificultad {{i}}" [attr.id]="'dificultad' + i" type="radio"
-                      value="1" />
+                    <input class="check-box form-control" [attr.id]="'nivel' + i" formControlName="nivel" type="radio"
+                      [value]="1" />
                   </div>
 
 
@@ -79,7 +90,8 @@
 
                 <div>
                   <label class="check-label">requiere procediemiento</label>
-                  <input class="check-box" name="procedimiento" [attr.id]="'procedimiento'" type="checkbox" value="" />
+                  <input class="check-box form-control" name="procedimiento" [attr.id]="'procedimiento' + i"
+                    formControlName="procedimiento" type="checkbox" />
                 </div>
               </div>
 
@@ -92,28 +104,46 @@
         </div>
 
         <!--esta es la seccion de las respuestas, se deberián generar 4 respuestas-->
-        <div class="respuesta col-11" formArrayName="respuestas" *ngFor="
-                            let respuesta of getRespuesta(reactivo); let j = index">
-          <div [formGroupName]="j">
-            <div class="input-group form-group  justify-content-center">
-              <div class="col-8">
-                <input type="text" name="{{ j }}" [attr.id]="'contenido' + j" class="form-control"
-                  placeholder="Respuesta {{ j + 1 }}" />
-              </div>
-              <div class="input-group-text form-check">
-                <input name="{{ i }}" [attr.id]="'correcto' + i" type="radio" value="" />
-              </div>
+        <div class="respuesta col-11" *ngFor="let respuesta of getRespuesta(reactivo); let j = index">
+          <!--
+            En la parte de las respuestas se "divide en dos" ya que el propio contenido de las respuestas si 
+            pertenece al array de las respuestas mientras que los radio bottom depende de la posicion (valor dado de la posicion)
+            para identificar cual la respuesta correcta por lo que los radio estan dentro del for de las respuestas pero fuera del
+            forArray de las respuestas
+          -->
+          <div class="input-group form-group  justify-content-center">
+            <!-- aqui inicia el formArray de las respuestas-->
+            <div formArrayName="respuestas">
+              <div [formGroupName]="j">
 
+                <div class="col-8">
+                  <input type="text" name="respuesta {{ j }}" [attr.id]="'contenido' + j" class="form-control"
+                    formControlName="contenido" placeholder="Respuesta {{ j + 1 }}" />
+                </div>
 
-              <div class="input-group-prepend text-center col-1">
-                <button *ngIf="getRespuesta(reactivo).length > 1" class="btn btn-danger" type="button"
-                  (click)="eliminarRespuesta(i, j)">
-                  x
-                </button>
               </div>
             </div>
+            <!--
+              Aqui terminar el formArray de las respuestas
+              Justo debajo esta la parte de los radio
+            -->
+            <div class="input-group-text form-check">
+              <input class="form-control" type="radio" value="{{j}}" [attr.id]="'correcto' + i"
+                formControlName="correcto" />
+            </div>
+
+            <div class="input-group-prepend text-center col-1">
+              <button *ngIf="getRespuesta(reactivo).length > 1" class="btn btn-danger" type="button"
+                (click)="eliminarRespuesta(i, j)">
+                x
+              </button>
+            </div>
+
           </div>
+
+        
         </div>
+        <!--Termina la parte de las respuestas-->
         <div class="col-10 input-group-prepend">
           <button *ngIf="getRespuesta(reactivo).length < 4" class="addbtn btn w-70" id="butresp" type="button"
             (click)="agregarRespuesta(i)">
@@ -130,15 +160,11 @@
         <button class="addbtn btn w-30" type="button" (click)="agregarReactivo()">
           Agregar Reactivo
         </button>
-        <button class="addbtn btn">
+        <button class="addbtn btn" (click)="mandar()">
           Guardar Cambios
         </button>
       </div>
     </div>
   </div>
-
-
-
-
 
 </form>
