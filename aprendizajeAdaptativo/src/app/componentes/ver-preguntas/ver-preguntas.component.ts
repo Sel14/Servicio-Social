@@ -107,7 +107,6 @@ export class VerPreguntasComponent implements OnInit {
 
   //Para los cambios del select
   cambiarUnidad(e: any) {
-    //this.temas = this.tema.find((unidadid: any) => unidadid.nombre == unidad.target.value);
     this.unidadID = null;
     this.temas = [];
 

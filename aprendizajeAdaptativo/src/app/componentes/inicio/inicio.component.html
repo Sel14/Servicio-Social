@@ -11,10 +11,11 @@
   <hr />
 </div>
 <div class="col-12">
+  
   <div *ngFor="let materias of materias">
     <div class="card">
       <div class="card-body">
-        <a href="/materia">{{ materias.nombre }}</a>
+        <a href="/materia">{{ materias.nombreAsignatura }}</a>
         <div>
           <button class="addbtn btn w-30" type="submit" routerLink="/">
             Editar
@@ -23,6 +24,7 @@
       </div>
     </div>
   </div>
+  
 </div>
 
 <!--Contenido de la modal para crear una materia-->
@@ -43,7 +45,7 @@
   <form class="mb-3" [formGroup]="materia" (ngSubmit)="guardar()">
     <div class="modal-body">
       <label for="contenido">Introduzca los datos</label>
-      <input type="text" placeholder="nombre de la materia" formControlName="nombre" required=""/>
+      <input type="text" placeholder="nombre de la materia" formControlName="nombreAsignatura"/>
     </div>
 
     <div class="modal-footer">

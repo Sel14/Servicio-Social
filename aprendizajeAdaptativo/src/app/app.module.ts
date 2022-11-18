@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,6 +17,7 @@ import { UnidadesComponent } from './componentes/unidades/unidades.component';
 import { CrearPreguntaComponent } from './componentes/crear-pregunta/crear-pregunta.component';
 import { VerPreguntasComponent } from './componentes/ver-preguntas/ver-preguntas.component';
 import { MateriaComponent } from './componentes/materia/materia.component';
+import { importType } from '@angular/compiler/src/output/output_ast';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,7 @@ import { MateriaComponent } from './componentes/materia/materia.component';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatSidenavModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

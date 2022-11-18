@@ -22,7 +22,7 @@
 
         <div class="container">
           <div class="row form-group" id="titulounidad">
-            <p class="col">Unidad {{ l + 1 }}</p>
+            <p class="col">Unidad {{ l + 1}} {{unidad.controls['contenido'].value}}</p>
 
             <!--boton para eliminar una Unidad-->
             <div class="justify-content-end">
@@ -35,9 +35,12 @@
             </div>
 
             <div class="col-12">
-              <select name="unidad" (change)="cambiarUnidad($event)" class="form-control">
-                <option>--Seleccione Unidad--</option>
-                <option *ngFor="let unidad of unidad">{{unidad.nombre}}</option>
+              
+              <select name="unidadesList" id="{{l}}" (change)="cambiarUnidad($event, unidad)" class="form-control">
+                <option value="" selected>--Seleccione Unidad--</option>
+                <option *ngFor="let unidades of unidades" [value]="unidades.nombre">
+                  {{unidades.nombre}}
+                </option>
               </select>
             </div>
           </div>
@@ -50,7 +53,7 @@
                 <div class="col-12">
                   <div class="justify-content-center">
                     <div class="form-group row" id="titulotema">
-                      <p class="col">Tema {{ k + 1 }}</p>
+                      <p class="col">Tema {{ k + 1 }} {{tema.controls['contenido'].value}}</p>
 
                       <!--boton para eliminar un Tema-->
                       <div class="justify-content-end">
@@ -63,9 +66,11 @@
                       </div>
 
                       <div class="col-md-12">
-                        <select type="text" name="tema" id="tema" class="form-control col-12">
-                          <option>--Seleccione un Tema--</option>
-                          <option *ngFor="let tema of temas">{{tema}}</option>
+                        <select name="tema" id="{{k}}" class="form-control col-12" (change)="cambiarTema($event, tema)">
+                          <option value="" selected>--Seleccione un Tema--</option>
+                          <option *ngFor="let tema of temas" [value]="tema.nombre">
+                            {{ tema.nombre }}
+                          </option>
                         </select>
                       </div>
                     </div>
@@ -78,7 +83,7 @@
 
                           <div class="col-12">
                             <div class="form-group row" id="titulotema">
-                              <p class="col">Pregunta {{ i + 1 }}</p>
+                              <p class="col">Pregunta {{ i + 1 }} {{reactivo.controls['contenido'].value}} {{reactivo.controls['correcto'].value}}</p>
 
                               <!--boton para eliminar un reactivo-->
                               <div class="justify-content-end">
@@ -91,24 +96,26 @@
                               </div>
 
                               <div class="col-md-12">
-                                  <select name="pregunta" class="form-control">
+                                  <select name="pregunta" class="form-control" (change)="cambiarPregunta($event, reactivo)">
                                     <option>--Seleccione una pregunta--</option>
+                                    <option *ngFor="let pregunta of preguntas">{{pregunta.contenido}}</option>
                                   </select>
                               </div>
                             </div>
                           </div>
 
-                          <!--esta es la seccion de las respuestas, se deberián generar n respuestas--><!--
+                          <!--esta es la seccion de las respuestas, se deberián generar 4 respuestas-->
                           <div class="respuesta col-11" formArrayName="respuestas" *ngFor="
                             let respuesta of getRespuesta(reactivo); let j = index">
                             <div [formGroupName]="j">
-                              <div class="input-group form-group  justify-content-center">
+                              <div class="input-group form-group  justify-content-center" >
                                 <div class="col-8">
-                                  <input type="text" name="{{ j }}" [attr.id]="'contenido' + j" class="form-control"
-                                    placeholder="Respuesta {{ j + 1 }}" />
+                                  <input type="text" name="{{ j }}" id="{{ j }}" class="form-control"
+                                    value="{{respuesta.controls['contenido'].value}}" />
                                 </div>
                                 <div class="input-group-text form-check">
-                                  <input name="{{ i }}" [attr.id]="'correcto' + i" type="radio" value="" />
+                                  <input name="{{i}} {{k}} {{l}}" type="radio" checked="{{j==reactivo.controls['correcto'].value}}" 
+                                   disabled />
                                 </div>
 
                                 <!--
@@ -121,22 +128,10 @@
                                     Pregunta {{ z + 1 }}
                                   </option>
                                 </select>
-                                    --> <!--
-                                <div class="input-group-prepend text-center col-1">
-                                  <button *ngIf="getRespuesta(reactivo).length > 1" class="btn btn-danger" type="button"
-                                    (click)="eliminarRespuesta(l, k, i, j)">
-                                    X
-                                  </button>
-                                </div>
+                              -->
                               </div>
                             </div>
                           </div>
-                          <div class="col-10 input-group-prepend">
-                            <button *ngIf="getRespuesta(reactivo).length < 4" class="addbtn btn w-70" id="butresp"
-                              type="button" (click)="agregarRespuesta(l, k, i)">
-                              Agregar Respuesta
-                            </button>
-                          </div> -->
                         </div>
                       </div>
                       <div class="container col-12 parabotones justify-content-center">
@@ -183,4 +178,7 @@
       </div>
     </div>
   </form>
+  <button class="addbtn btn" (click)="mandar()">
+    Guardar Cambios
+  </button>
 </div>
