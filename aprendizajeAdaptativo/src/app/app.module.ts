@@ -18,6 +18,10 @@ import { CrearPreguntaComponent } from './componentes/crear-pregunta/crear-pregu
 import { VerPreguntasComponent } from './componentes/ver-preguntas/ver-preguntas.component';
 import { MateriaComponent } from './componentes/materia/materia.component';
 import { importType } from '@angular/compiler/src/output/output_ast';
+import { InicioAlumnosComponent } from './componentes/inicio-alumnos/inicio-alumnos.component';
+import { MateriaAlumnosComponent } from './componentes/materia-alumnos/materia-alumnos.component';
+import { ExamenAlumnosComponent } from './componentes/examen-alumnos/examen-alumnos.component';
+import { ResultadosAlumnoComponent } from './componentes/resultados-alumno/resultados-alumno.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +35,10 @@ import { importType } from '@angular/compiler/src/output/output_ast';
     CrearPreguntaComponent,
     VerPreguntasComponent,
     MateriaComponent,
+    InicioAlumnosComponent,
+    MateriaAlumnosComponent,
+    ExamenAlumnosComponent,
+    ResultadosAlumnoComponent,
   ],
   imports: [
     BrowserModule,
