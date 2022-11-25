@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormGroup, FormBuilder } from '@angular/forms';
+import { FormArray, FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { UnidadesService } from 'src/app/servicios/unidadesServices/unidades.service';
+import { PreguntaService } from 'src/app/servicios/preguntaService/pregunta.service';
+import { TemaInterface } from 'src/app/interfaces/tema-interface';
+import { UnidadInterface } from 'src/app/interfaces/unidad-interface';
+import { PreguntaInterface } from 'src/app/interfaces/pregunta-interface';
 
 @Component({
   selector: 'app-crear-pregunta',
@@ -9,21 +16,83 @@ import { FormArray, FormGroup, FormBuilder } from '@angular/forms';
 export class CrearPreguntaComponent implements OnInit {
 
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder,
+    private preguntaService: PreguntaService,
+    private service: UnidadesService,
+    private router: Router,
+    private route: ActivatedRoute) { 
+      this.route.paramMap.subscribe(params => {
+        if (params.has("idAsignatura")){
+          this.service.getUnidadesByAsignatura(params.get("idAsignatura")).subscribe(
+            data=>{
+              this.unidad = <UnidadInterface[]> data
+              this.tema = <TemaInterface[]> []
+              this.idAsignatura = params.get("idAsignatura")
+              for (let i = 0; i < this.unidad.length; i++) {
+                this.service.getTemasByUnidades(this.unidad[i].idUnidades).subscribe(
+                  data1=>{
+                    const arr = <TemaInterface[]> data1
+                    for (let j = 0; j < arr.length; j++) {
+                      this.tema.push(arr[j])
+                    }
+                  }
+                )
+              }
+              this.preguntaService.getPreguntas().subscribe(
+                data2=>{
+                  const id = <PreguntaInterface[]>data2
+                  this.preguntaId = id.length + 1
+                }
+              )
+            }
+          )
+        }
+      }) 
+    }
 
   //Se declara el formGroup para guardar los datos
   examen!: FormGroup;
-
+  unidad: UnidadInterface[] = <UnidadInterface[]>{}
+  tema: TemaInterface[] = <TemaInterface[]>{}
+  
   //Parte para selecionar unidad y tema
-  unidad: Array<any> = [
-    { nombre: 'unidad 1', temas: ['tema 1', 'tema 2'] },
-    { nombre: 'unidad 2', temas: ['tema 3', 'tema 4'] },
-  ];
+  /*unidad: Array<any> = [
+    { nombre: 'unidad 1: Suma y Resta', id: 0 },
+    { nombre: 'unidad 2: Division Y Multiplicación', id: 1 },
+  ];*/
 
-  temas: Array<any> = [];
+  /*tema: Array<any> = [
+    { nombre: 'tema 1: Suma', unidadid: 0, id: 0 },
+    { nombre: 'tema 2: Resta', unidadid: 0, id: 1 },
+    { nombre: 'tema 1: Division', unidadid: 1, id: 0 },
+    { nombre: 'tema 2: Multiplicación', unidadid: 1, id: 1 },
+  ];*/
 
-  cambiarUnidad(unidad: any) {
-    this.temas = this.unidad.find((undad: any) => undad.nombre == unidad.target.value).temas;
+  isChecked = true
+  temas: TemaInterface[] = <TemaInterface[]>{};
+  //Son justos y necesarios
+  unidadID: any;
+  temaid:any
+  preguntaId: any
+  idAsignatura: any
+  cambiarUnidad(e: any) {
+    this.unidadID = null;
+    this.temas = [];
+    
+    for (let i = 0; i < this.unidad.length; i++) {
+      if (this.unidad[i].nombreUnidad == e.target.value) {
+        this.unidadID = this.unidad[i].idUnidades;
+      }
+    }
+
+    if (this.unidadID != null) {
+      for (let i = 0; i < this.tema.length; i++) {
+        if (this.tema[i].idUnidad == this.unidadID) {
+          this.temaid = this.tema[i].idTema
+          this.temas.push(this.tema[i]);
+        }
+      }
+    }
   }
   //roytuts.com/cascading-or-dependent-dropdown-using-angular/
 
@@ -39,13 +108,14 @@ export class CrearPreguntaComponent implements OnInit {
   //Se construye el formulario para los reactivos
   crearReactivo(): FormGroup {
     return this.formBuilder.group({
-      contenido: "",
-      procedimiento: "",
-      nivel: "",
-      correcto: "",
-      unidadId: "",
-      temaId: "",
+      contenido: new FormControl(""),
+      procedimiento: new FormControl(true),
+      nivel: new FormControl(0),
+      correcto: new FormControl(0),
       respuestas: new FormArray([
+        this.crearRespuestas(),
+        this.crearRespuestas(),
+        this.crearRespuestas(),
         this.crearRespuestas()
       ]),
       
@@ -67,15 +137,11 @@ export class CrearPreguntaComponent implements OnInit {
   //Se construye el formulario para los reactivos
   crearRespuestas(): FormGroup {
     return this.formBuilder.group({
-      contenido: "",
+      contenido: new FormControl(""),
     })
   }
 
   //boton para crear una nueva respuesta
-  agregarRespuesta(k: any) {
-    const respuesta = (this.examen.get('reactivos') as FormArray).controls[k].get('respuestas') as FormArray;
-    respuesta.push(this.crearRespuestas());
-  }
 
   //se obtine la posicion de la respuesta dentro del reactivo
   getRespuesta(form: any) {
@@ -108,9 +174,49 @@ export class CrearPreguntaComponent implements OnInit {
     respuesta.removeAt(j);
   }
 
+  checked(form: any){
+    this.isChecked = !this.isChecked
+    form.controls['procedimiento'].setValue(this.isChecked)
+    this.isChecked = !this.isChecked
+  }
+
   //Aqui es para mandar para la base de dato que no esta implementada xd
   mandar(){
-    console.log(this.examen.value)
+    let form: PreguntaInterface = <PreguntaInterface>{}
+    let res: {idReactivo: string, orden: number, idRespuesta: string, respuestaString: string, idsigreactivo: string} = <any>{}
+    let i: number 
+    for (let reactivo of this.getReactivo(this.examen)) {
+      i=0
+      form.idtema = this.temaid
+      form.idunidad = this.unidadID
+      form.idreactivo = this.preguntaId.toString()
+      this.preguntaId++
+      form.correcto = reactivo.controls['correcto'].value
+      form.pregunta = reactivo.controls['contenido'].value
+      form.dificultad = reactivo.controls['nivel'].value
+      form.requiereProcedimiento = reactivo.controls['procedimiento'].value
+      this.preguntaService.postPregunta(form).subscribe(
+        (res) => console.log(res),
+        (err) => console.log(err)
+      )
+      for (let respuesta of this.getRespuesta(reactivo)){
+        res.idReactivo = form.idreactivo
+        res.orden = i
+        res.respuestaString =  respuesta.controls['contenido'].value
+        res.idsigreactivo = '1'
+        res.idRespuesta = form.idreactivo + '-' + i.toString()
+        i++
+        this.preguntaService.postRespuesta(res).subscribe(
+          (resp) => console.log(resp),
+          (err) => console.log(err)
+        )
+      }
+    }
+    this.linkVerPreguntas(this.idAsignatura)
+  }
+
+  linkVerPreguntas(idAsignatura: any){
+    this.router.navigate(["/"+idAsignatura, 'materia', 'ver'])
   }
 
 }

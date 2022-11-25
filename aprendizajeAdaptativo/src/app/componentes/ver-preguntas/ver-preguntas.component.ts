@@ -1,5 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { UnidadesService } from 'src/app/servicios/unidadesServices/unidades.service';
+import { PreguntaService } from 'src/app/servicios/preguntaService/pregunta.service';
+import { TemaInterface } from 'src/app/interfaces/tema-interface';
+import { UnidadInterface } from 'src/app/interfaces/unidad-interface';
+import { PreguntaInterface } from 'src/app/interfaces/pregunta-interface';
+import { RespuestaInterface } from 'src/app/interfaces/pregunta-interface';
 
 @Component({
   selector: 'app-ver-preguntas',
@@ -7,12 +15,45 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./ver-preguntas.component.css'],
 })
 export class VerPreguntasComponent implements OnInit {
-  constructor(private modalService: NgbModal) { }
+  constructor(
+    private modalService: NgbModal,
+    private preguntaService: PreguntaService,
+    private service: UnidadesService,
+    private router: Router,
+    private route: ActivatedRoute
+    ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      if (params.has("idAsignatura")){
+        this.service.getUnidadesByAsignatura(params.get("idAsignatura")).subscribe(
+          data=>{
+            this.unidad = <UnidadInterface[]> data;
+            this.idAsignatura = params.get("idAsignatura")
+            this.tema = <TemaInterface[]> []
+            for (let i = 0; i < this.unidad.length; i++) {
+              this.service.getTemasByUnidades(this.unidad[i].idUnidades).subscribe(
+                data1=>{
+                  const arr = <TemaInterface[]> data1
+                  for (let j = 0; j < arr.length; j++) {
+                    this.tema.push(arr[j])
+                  }
+                }
+              )
+            }
+            this.preguntaService.getPreguntas().subscribe(
+              data2=>{
+                this.pregunta = <PreguntaInterface[]>data2
+              }
+            )
+          }
+        )
+      }
+    }) 
+   }
 
   //Para obtener los datos.
-
+/*
   unidad: Array<any> = [
     { nombre: 'unidad 1: Suma y Resta', id: 0 },
     { nombre: 'unidad 2: Division Y Multiplicación', id: 1 },
@@ -56,7 +97,7 @@ export class VerPreguntasComponent implements OnInit {
       unidadid: 0,
       temaid: 1,
       correcto: 0,
-      respuestas: ['Bulbasur', 'Mew', 'Arceus', 'Ryhorn'],
+      respuestas: ['Bulbasaur', 'Mew', 'Arceus', 'Ryhorn'],
     },
     {
       contenido: 'De que color es el caballo blanco',
@@ -94,12 +135,17 @@ export class VerPreguntasComponent implements OnInit {
       correcto: 0,
       respuestas: ['Ina', 'Mumei', 'Gura', 'Cali'],
     },
-  ];
+  ];*/
 
+  unidad: UnidadInterface[] = <UnidadInterface[]>{}
+  tema: TemaInterface[] = <TemaInterface[]>{}
+  pregunta: PreguntaInterface[] = <PreguntaInterface[]>{}
+
+  idAsignatura: any = ''
   isCollapsed = true;
   //Temas y unidades es para los cambios en el select
-  temas: Array<any> = [];
-  preguntas: Array<any> = [];
+  temas: TemaInterface[] = <TemaInterface[]>{};
+  preguntas: PreguntaInterface[] = <PreguntaInterface[]>{};
   //Son justos y necesarios
   unidadID: any;
   temaID: any;
@@ -109,16 +155,16 @@ export class VerPreguntasComponent implements OnInit {
   cambiarUnidad(e: any) {
     this.unidadID = null;
     this.temas = [];
-
+    
     for (let i = 0; i < this.unidad.length; i++) {
-      if (this.unidad[i].nombre == e.target.value) {
-        this.unidadID = this.unidad[i].id;
+      if (this.unidad[i].nombreUnidad == e.target.value) {
+        this.unidadID = this.unidad[i].idUnidades;
       }
     }
 
     if (this.unidadID != null) {
       for (let i = 0; i < this.tema.length; i++) {
-        if (this.tema[i].unidadid == this.unidadID) {
+        if (this.tema[i].idUnidad == this.unidadID) {
           this.temas.push(this.tema[i]);
         }
       }
@@ -129,21 +175,21 @@ export class VerPreguntasComponent implements OnInit {
     this.temaID = null;
     this.preguntas = [];
 
-    for (let i = 0; i < this.tema.length; i++) {
-      if (this.tema[i].nombre == e.target.value) {
-        this.temaID = this.tema[i].id;
+    for (let i = 0; i < this.temas.length; i++) {
+      if (this.temas[i].nombreTema == e.target.value) {
+        this.temaID = this.temas[i].idTema;
       }
     }
-
     if (this.temaID != null) {
       for (let i = 0; i < this.pregunta.length; i++) {
         if (
-          this.pregunta[i].unidadid == this.unidadID &&
-          this.pregunta[i].temaid == this.temaID
+          this.pregunta[i].idunidad == this.unidadID &&
+          this.pregunta[i].idtema == this.temaID
         ) {
           this.preguntas.push(this.pregunta[i]);
         }
       }
+      console.log(this.preguntas)
     }
   }
   //this.preguntas = this.unidad.find((undad: any) => undad.id == this.selectedUnidad).temas.find((tma: any) => tma.id == tema.target.value).preguntas;
@@ -176,5 +222,9 @@ export class VerPreguntasComponent implements OnInit {
   save(pregunta: any) {
     console.log(pregunta);
     //window.location.reload();
+  }
+
+  linkCrearPreguntas(idAsignatura: any){
+    this.router.navigate(["/"+idAsignatura, 'materia', 'crear'])
   }
 }

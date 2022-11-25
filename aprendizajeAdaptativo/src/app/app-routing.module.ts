@@ -14,9 +14,13 @@ const routes: Routes = [
   { path: 'login', component:LoginComponent},
   { path: '', component:InicioComponent},
   { path: 'crear', component:CrearPreguntaComponent },
+  { path: ':idAsignatura/materia/crear', component:CrearPreguntaComponent },
   { path: 'ver', component:VerPreguntasComponent},
+  { path: ':idAsignatura/materia/ver', component:VerPreguntasComponent},
   { path: 'unidades', component:UnidadesComponent},
-  { path: 'materia', component:MateriaComponent}
+  { path: ':idAsignatura/materia/unidades', component:UnidadesComponent},
+  { path: 'materia', component:MateriaComponent},
+  { path: ':idAsignatura/materia', component:MateriaComponent}
 
 ];
 

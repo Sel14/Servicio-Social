@@ -15,7 +15,7 @@
   <div *ngFor="let materias of materias">
     <div class="card">
       <div class="card-body">
-        <a href="/materia">{{ materias.nombreAsignatura }}</a>
+        <a (click)="link(materias.idAsignatura)">{{ materias.nombreAsignatura }}</a>
         <div>
           <button class="addbtn btn w-30" type="submit" routerLink="/">
             Editar

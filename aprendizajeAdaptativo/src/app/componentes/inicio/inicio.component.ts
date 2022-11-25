@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap'; 
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { AsignaturaService } from 'src/app/servicios/asignaturaService/asignatura.service';
 import { AsignaturaInterface } from 'src/app/interfaces/asignatura-interface';
@@ -11,10 +12,10 @@ import { AsignaturaInterface } from 'src/app/interfaces/asignatura-interface';
   styleUrls: ['./inicio.component.css']
 })
 export class InicioComponent implements OnInit {
-
-  
-  constructor(private modalService: NgbModal,
-    private formBuilder: FormBuilder,
+ 
+  constructor(
+    private router: Router,
+    private modalService: NgbModal,
     private asignatura: AsignaturaService
     ) {
       this.asignatura.getAsignatura().subscribe(
@@ -36,32 +37,31 @@ export class InicioComponent implements OnInit {
   ]*/
   materia = new FormGroup({
     nombreAsignatura: new FormControl(""),
-    idAsignatura: new FormControl("5"),
+    idAsignatura: new FormControl(""),
     idProfesor: new FormControl("1"),
     descAsignatura: new FormControl("una descripcion"),
   })
   closeResult = ''
-
+  idProfesor = '1'
 
   guardar(){
-    console.log(this.materia.value)
-    this.asignatura.postAsignatura(this.materia.value).subscribe(data=>console.log(data));
+    this.asignatura.postAsignatura(this.materia).subscribe(
+      (res) => console.log(res),
+      (err) => console.log(err)
+      )
+    window.location.reload()
   }
 
-  /*
+  
   generarId(){
-    for (let i = 0; i < this.materias.length; i++) {
-      for (let j = 0; j < this.materias.length; j++) {
-        if (i==this.materias[j].idAsignatura) {
-          this.materia.controls["idAsignatura"].setValue(i)
-        }
-      }
-    }
-  }*/
+    var i = this.materias.length + 1
+    var st = i.toString()
+    this.materia.controls["idAsignatura"].setValue(st)
+  }
 
   //cosas para el modal
   open(content: any) {
-    //this.generarId(); 
+    this.generarId(); 
     this.modalService
       .open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg' })
       .result.then(
@@ -84,4 +84,7 @@ export class InicioComponent implements OnInit {
     }
   }
 
+  link(idAsignatura: any){
+    this.router.navigate(["/"+idAsignatura, 'materia'])
+  }
 }

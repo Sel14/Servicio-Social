@@ -15,13 +15,13 @@
 
       <select name="unidad" (change)="cambiarUnidad($event)" class="form-control">
         <option>--Seleccione Unidad--</option>
-        <option *ngFor="let unidad of unidad">{{unidad.nombre}}</option>
+        <option *ngFor="let unidad of unidad">{{unidad.nombreUnidad}}</option>
       </select>
     </div>
 
     <select type="text" name="tema" id="tema" class="form-control col-6">
       <option>--Seleccione un Tema--</option>
-      <option *ngFor="let tema of temas">{{tema}}</option>
+      <option *ngFor="let tema of temas">{{tema.nombreTema}}</option>
     </select>
 
   </div>
@@ -91,7 +91,7 @@
                 <div>
                   <label class="check-label">requiere procediemiento</label>
                   <input class="check-box form-control" name="procedimiento" [attr.id]="'procedimiento' + i"
-                    formControlName="procedimiento" type="checkbox" />
+                    formControlName="procedimiento" type="checkbox"/>
                 </div>
               </div>
 
@@ -144,12 +144,6 @@
         
         </div>
         <!--Termina la parte de las respuestas-->
-        <div class="col-10 input-group-prepend">
-          <button *ngIf="getRespuesta(reactivo).length < 4" class="addbtn btn w-70" id="butresp" type="button"
-            (click)="agregarRespuesta(i)">
-            Agregar Respuesta
-          </button>
-        </div>
       </div>
     </div>
     <div class="container col-12 parabotones justify-content-center">

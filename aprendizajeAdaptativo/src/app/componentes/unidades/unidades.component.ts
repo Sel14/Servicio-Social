@@ -1,4 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { UnidadesService } from 'src/app/servicios/unidadesServices/unidades.service';
+import { TemaInterface } from 'src/app/interfaces/tema-interface';
+import { UnidadInterface } from 'src/app/interfaces/unidad-interface';
+import { importType } from '@angular/compiler/src/output/output_ast';
+import { merge } from 'rxjs';
 
 @Component({
   selector: 'app-unidades',
@@ -6,50 +13,107 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./unidades.component.css']
 })
 export class UnidadesComponent implements OnInit {
+  
+  /*
   public unidades = [
-    { id: 0, nombre: 'Unidad 1: El nombre de la unidad' },
-    { id: 1, nombre: 'Unidad 2: El nombre de esta otra' },
-    { id: 2, nombre: 'Unidad 3: El nombre de una más' },
-    { id: 3, nombre: 'Unidad 4: El nombre de esta última' }
-  ];
-  public temas = [
-    { id: 0, idUnid: 0, nombre: 'Tema 1: El nombre del tema de la unidad 1' },
-    { id: 1, idUnid: 0, nombre: 'Tema 2: El nombre del otro tema de la unidad 1' },
-    { id: 2, idUnid: 1, nombre: 'Tema 1: El nombre del tema de la unidad 2' },
-    { id: 3, idUnid: 1, nombre: 'Tema 2: El nombre del otro tema de la unidad 2' },    
-    { id: 4, idUnid: 2, nombre: 'Tema 1: El nombre del tema de la unidad 3' },
-    { id: 5, idUnid: 2, nombre: 'Tema 2: El nombre del otro tema de la unidad 3' },    
-    { id: 6, idUnid: 3, nombre: 'Tema 1: El nombre del tema de la unidad 4' },
-    { id: 7, idUnid: 3, nombre: 'Tema 2: El nombre del otro tema de la unidad 4' }
-  ];
+    { id: '0', nombre: 'Unidad 1: El nombre de la unidad' },
+    { id: '1', nombre: 'Unidad 2: El nombre de esta otra' },
+    { id: '2', nombre: 'Unidad 3: El nombre de una más' },
+    { id: '3', nombre: 'Unidad 4: El nombre de esta última' }
+  ];*/
+  
+  
+  /*public temas = [
+    { id: '0', idUnidad: '0', nombre: 'Tema 1: El nombre del tema de la unidad 1' },
+    { id: '1', idUnidad: '0', nombre: 'Tema 2: El nombre del otro tema de la unidad 1' },
+    { id: '2', idUnidad: '1', nombre: 'Tema 1: El nombre del tema de la unidad 2' },
+    { id: '3', idUnidad: '1', nombre: 'Tema 2: El nombre del otro tema de la unidad 2' },    
+    { id: '4', idUnidad: '2', nombre: 'Tema 1: El nombre del tema de la unidad 3' },
+    { id: '5', idUnidad: '2', nombre: 'Tema 2: El nombre del otro tema de la unidad 3' },    
+    { id: '6', idUnidad: '3', nombre: 'Tema 1: El nombre del tema de la unidad 4' },
+    { id: '7', idUnidad: '3', nombre: 'Tema 2: El nombre del otro tema de la unidad 4' }
+  ];*/
 
-  nuevaunidad: string = ''
-  nuevotema: string = ''
-  idunidad: number = 4
-  idtema: number = 8
-  unidadselect: number = 0
+  unidades: UnidadInterface[] = <UnidadInterface[]>{}
+  temas: TemaInterface[] = <TemaInterface[]>{}
 
-  constructor() { }
+  idAsignatura: any = ''
+  nuevaunidad: any = ''
+  nuevotema: any = ''
+  idunidad: any = ''
+  idtema: any = ''
+  unidadselect: any = ''
+
+  constructor(
+    private service: UnidadesService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      if (params.has("idAsignatura")){
+        this.service.getUnidadesByAsignatura(params.get("idAsignatura")).subscribe(
+          data=>{
+            this.unidades = <UnidadInterface[]> data;
+            this.idAsignatura = params.get("idAsignatura")
+            this.temas = <TemaInterface[]> []
+            for (let i = 0; i < this.unidades.length; i++) {
+              this.service.getTemasByUnidades(this.unidades[i].idUnidades).subscribe(
+                data1=>{
+                  const arr = <TemaInterface[]> data1
+                  for (let j = 0; j < arr.length; j++) {
+                    this.temas.push(arr[j])
+                  }
+                }
+              )
+            }
+            this.service.getAllTemas().subscribe(
+              data2=>{
+                const id = <TemaInterface[]> data2
+                this.idtema = id.length + 1
+                console.log(this.idtema)
+              }
+             )
+             this.service.getAllUnidades().subscribe(
+              data3=>{
+                const id = <UnidadInterface[]>data3
+                this.idunidad = id.length +1
+                console.log(this.idunidad)
+              }
+             )
+          }
+        )
+      }
+    }) 
   }
 
   agregarUnidad() {
     if (this.nuevaunidad.length > 0) {
-      var item = { id: this.idunidad, nombre: this.nuevaunidad };
+      var item:UnidadInterface = { idUnidades: this.idunidad.toString(), nombreUnidad: this.nuevaunidad, idAsignatura: this.idAsignatura,  descUnidad: "Algo"};
+      this.service.postUnidades(item).subscribe(
+        (res) => console.log(res),
+        (err) => console.log(err)
+      )
+      console.log(item)
       this.unidades.push(item)
       this.nuevaunidad = ''
-      this.idunidad=this.idunidad+1
+      this.idunidad=this.idunidad + 1
     }
   }
 
-  seleccionarUnidad(unidad_seleccionada: number){
+  seleccionarUnidad(unidad_seleccionada: String){
     this.unidadselect = unidad_seleccionada
   }
 
   agregarTema(){
     if (this.nuevotema.length > 0) {
-      var item = { id: this.idtema, idUnid: this.unidadselect, nombre: this.nuevotema };
+      var item:TemaInterface = { idTema: this.idtema.toString(), idUnidad: this.unidadselect, nombreTema: this.nuevotema, descTema: "Algo"};
+      this.service.postTemas(item).subscribe(
+        (res) => console.log(res),
+        (err) => console.log(err)
+      )
+      console.log(item)
       this.temas.push(item)
       this.nuevotema = ''
       this.idtema=this.idtema+1
@@ -57,11 +121,16 @@ export class UnidadesComponent implements OnInit {
   }
 
   filtrarTemas(){
-    return this.temas.filter(tema => tema.idUnid == this.unidadselect)
+    return Object.values(this.temas).filter(tema => tema.idUnidad == this.unidadselect)
   }
 
-  eliminarUnidad( eliminar: number){
+  /*
+  eliminarUnidad( eliminar: string){
     this.unidades = this.unidades.filter(unidad => unidad.id != eliminar)
+  }*/
+
+  linkVerPreguntas(idAsignatura: any){
+    this.router.navigate(["/"+idAsignatura, 'materia', 'ver'])
   }
 
 }

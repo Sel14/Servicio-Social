@@ -10,10 +10,10 @@
                 <th colspan="3">Unidades</th>
             </tr>
             <tr *ngFor="let unidad of unidades">
-                <td>{{unidad['nombre']}}</td>
+                <td>{{unidad.nombreUnidad}}</td>
                  
                 <td><!--<button class="eliminar" (click)="eliminarUnidad(unidad['id'])">Eliminar</button>--></td>
-                <td><button class="ver" (click)="seleccionarUnidad(unidad['id'])">Temas</button></td>
+                <td><button class="ver" (click)="seleccionarUnidad(unidad.idUnidades)">Temas</button></td>
             </tr>
             <tfoot>
                 <td colspan="3">
@@ -26,7 +26,7 @@
     </div>
     <div class="container col-6" style="float: right;">
         <div class="box">
-            <p class="justify-content-center" id="boxtema">Unidad: <br> {{unidades[unidadselect]['nombre']}}</p>
+            <p class="justify-content-center" id="boxtema">Unidad: <br> {{unidadselect}}</p>
             <div class="justify-content-center" style="margin: 15px;">
                 <table>
                     <thead>
@@ -36,13 +36,14 @@
                     </thead>
                     <tr>
                         <th colspan="3">Temas</th>
+                    
                     </tr>
                         <tr *ngFor="let tema of filtrarTemas()">
-                        <td>{{tema['nombre']}}</td>
+                        <td>{{tema.nombreTema}}</td>
                         <td><!--<button class="editar">Editar</button>--></td>
-                        <td><button class="ver"  type="submit" routerLink="/ver">Preguntas</button></td>
+                        <td><button class="ver"  type="submit" (click)="linkVerPreguntas(idAsignatura)">Preguntas</button></td>
                     </tr>
-                    
+                
                     <tfoot>
                         <td colspan="3">
                             <div class="formNuevoTema">
