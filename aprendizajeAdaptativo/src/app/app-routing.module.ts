@@ -16,24 +16,19 @@ import { ResultadosAlumnoComponent } from './componentes/resultados-alumno/resul
 const routes: Routes = [
   { path: 'examen', component: ExamenComponent },
   { path: 'login', component:LoginComponent},
-  { path: '', component:InicioComponent},
+  { path: ':idProfesor/inicio', component:InicioComponent},
   { path: 'crear', component:CrearPreguntaComponent },
   { path: ':idAsignatura/materia/crear', component:CrearPreguntaComponent },
   { path: 'ver', component:VerPreguntasComponent},
   { path: ':idAsignatura/materia/ver', component:VerPreguntasComponent},
   { path: 'unidades', component:UnidadesComponent},
-<<<<<<< HEAD
   { path: ':idAsignatura/materia/unidades', component:UnidadesComponent},
   { path: 'materia', component:MateriaComponent},
-  { path: ':idAsignatura/materia', component:MateriaComponent}
-
-=======
-  { path: 'materia', component:MateriaComponent},
+  { path: ':idAsignatura/materia', component:MateriaComponent},
   { path: 'inicio-alumnos', component:InicioAlumnosComponent},
   { path: 'materia-alumnos', component:MateriaAlumnosComponent},
   { path: 'examen-alumnos', component:ExamenAlumnosComponent},
   { path: 'resultados-alumno', component:ResultadosAlumnoComponent}
->>>>>>> b69c183dbc84c9b3d4190623c06d6211d16208f1
 ];
 
 @NgModule({
