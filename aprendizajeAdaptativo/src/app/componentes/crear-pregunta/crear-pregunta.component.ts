@@ -52,8 +52,8 @@ export class CrearPreguntaComponent implements OnInit {
 
   //Se declara el formGroup para guardar los datos
   examen!: FormGroup;
-  unidad: UnidadInterface[] = <UnidadInterface[]>{}
-  tema: TemaInterface[] = <TemaInterface[]>{}
+  unidad: UnidadInterface[] = <UnidadInterface[]>[]
+  tema: TemaInterface[] = <TemaInterface[]>[]
   
   //Parte para selecionar unidad y tema
   /*unidad: Array<any> = [
@@ -181,7 +181,7 @@ export class CrearPreguntaComponent implements OnInit {
   }
 
   //Aqui es para mandar para la base de dato que no esta implementada xd
-  mandar(){
+  async mandar(){
     let form: PreguntaInterface = <PreguntaInterface>{}
     let res: {idReactivo: string, orden: number, idRespuesta: string, respuestaString: string, idsigreactivo: string} = <any>{}
     let i: number 
@@ -195,7 +195,9 @@ export class CrearPreguntaComponent implements OnInit {
       form.pregunta = reactivo.controls['contenido'].value
       form.dificultad = reactivo.controls['nivel'].value
       form.requiereProcedimiento = reactivo.controls['procedimiento'].value
-      this.preguntaService.postPregunta(form).subscribe(
+      console.log(form);
+      
+      await this.preguntaService.postPregunta(form).subscribe(
         (res) => console.log(res),
         (err) => console.log(err)
       )
@@ -206,7 +208,8 @@ export class CrearPreguntaComponent implements OnInit {
         res.idsigreactivo = '1'
         res.idRespuesta = form.idreactivo + '-' + i.toString()
         i++
-        this.preguntaService.postRespuesta(res).subscribe(
+        console.log(res);
+        await this.preguntaService.postRespuesta(res).subscribe(
           (resp) => console.log(resp),
           (err) => console.log(err)
         )

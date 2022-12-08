@@ -48,4 +48,22 @@ export class UnidadesService {
     return this.http.post<ResponseInterface>(this.url+"tema", tema)
   }
 
+  putUnidades(form: UnidadInterface){
+    const unidad = new FormData()
+    unidad.append('idUnidad', form.idUnidades)
+    unidad.append('nombreUnidad', form.nombreUnidad)
+    unidad.append('descUnidad', form.descUnidad)
+    unidad.append('idAsignatura', form.idAsignatura)
+    return this.http.put(this.url+"unidad/"+form.idUnidades, unidad)
+  }
+
+  putTemas(form: TemaInterface){
+    const tema = new FormData()
+    tema.append('idTema', form.idTema)
+    tema.append('nombreTema', form.nombreTema)
+    tema.append('descTema', form.descTema)
+    tema.append('idUnidad', form.idUnidad)
+    return this.http.put<ResponseInterface>(this.url+"tema/"+form.idTema, tema)
+  }
+
 }

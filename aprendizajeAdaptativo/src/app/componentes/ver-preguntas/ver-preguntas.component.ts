@@ -8,6 +8,7 @@ import { TemaInterface } from 'src/app/interfaces/tema-interface';
 import { UnidadInterface } from 'src/app/interfaces/unidad-interface';
 import { PreguntaInterface } from 'src/app/interfaces/pregunta-interface';
 import { RespuestaInterface } from 'src/app/interfaces/pregunta-interface';
+import { ReactivoInterface } from 'src/app/interfaces/reactivo-interface';
 
 @Component({
   selector: 'app-ver-preguntas',
@@ -137,15 +138,15 @@ export class VerPreguntasComponent implements OnInit {
     },
   ];*/
 
-  unidad: UnidadInterface[] = <UnidadInterface[]>{}
-  tema: TemaInterface[] = <TemaInterface[]>{}
-  pregunta: PreguntaInterface[] = <PreguntaInterface[]>{}
+  unidad: UnidadInterface[] = <UnidadInterface[]>[]
+  tema: TemaInterface[] = <TemaInterface[]>[]
+  pregunta: PreguntaInterface[] = <PreguntaInterface[]>[]
 
   idAsignatura: any = ''
   isCollapsed = true;
   //Temas y unidades es para los cambios en el select
-  temas: TemaInterface[] = <TemaInterface[]>{};
-  preguntas: PreguntaInterface[] = <PreguntaInterface[]>{};
+  temas: TemaInterface[] = <TemaInterface[]>[];
+  preguntas: PreguntaInterface[] = <PreguntaInterface[]>[];
   //Son justos y necesarios
   unidadID: any;
   temaID: any;
@@ -219,8 +220,25 @@ export class VerPreguntasComponent implements OnInit {
   }
 
   //actualiza lo datos y recarga la página
-  save(pregunta: any) {
+  async save(pregunta: PreguntaInterface) {
     console.log(pregunta);
+    this.preguntaService.putPregunta(pregunta).subscribe(
+      (res) => console.log(res),
+      (err) => console.log(err)
+    )
+    let res: {idReactivo: string, orden: number, idRespuesta: string, respuestaString: string, idsigreactivo: string} = <any>{}
+    for (let i = 0; i<pregunta.listOfRespuestas.length; i++){
+      res.idReactivo = pregunta.idreactivo
+      res.orden = i
+      res.respuestaString =  pregunta.listOfRespuestas[i].respuesta
+      res.idsigreactivo = '1'
+      res.idRespuesta = pregunta.idreactivo + '-' + i.toString()
+      console.log(res);
+      await this.preguntaService.putRespuesta(res).subscribe(
+        (resp) => console.log(resp),
+        (err) => console.log(err)
+      )
+    }
     //window.location.reload();
   }
 

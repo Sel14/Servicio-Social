@@ -8,7 +8,7 @@ export interface PreguntaInterface {
     dificultad: number,
     requiereProcedimiento: boolean,
     correcto: number,
-    listOfRespuestas?: (RespuestaInterface)[] | null,
+    listOfRespuestas: (RespuestaInterface)[] ,
 }
 
 export interface RespuestaInterface {

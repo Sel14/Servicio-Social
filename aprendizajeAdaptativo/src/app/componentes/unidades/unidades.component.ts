@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 import { UnidadesService } from 'src/app/servicios/unidadesServices/unidades.service';
 import { TemaInterface } from 'src/app/interfaces/tema-interface';
@@ -34,8 +35,8 @@ export class UnidadesComponent implements OnInit {
     { id: '7', idUnidad: '3', nombre: 'Tema 2: El nombre del otro tema de la unidad 4' }
   ];*/
 
-  unidades: UnidadInterface[] = <UnidadInterface[]>{}
-  temas: TemaInterface[] = <TemaInterface[]>{}
+  unidades: UnidadInterface[] = <UnidadInterface[]>[]
+  temas: TemaInterface[] = <TemaInterface[]>[]
 
   idAsignatura: any = ''
   nuevaunidad: any = ''
@@ -43,8 +44,13 @@ export class UnidadesComponent implements OnInit {
   idunidad: any = ''
   idtema: any = ''
   unidadselect: any = ''
-
+  closeResult = ''
+  nombreunidad:any = ''
+  nombretema:any = ''
+  unidadActual: UnidadInterface = <UnidadInterface>{}
+  temaActual: TemaInterface = <TemaInterface>{}
   constructor(
+    private modalService: NgbModal,
     private service: UnidadesService,
     private router: Router,
     private route: ActivatedRoute
@@ -124,13 +130,40 @@ export class UnidadesComponent implements OnInit {
     return Object.values(this.temas).filter(tema => tema.idUnidad == this.unidadselect)
   }
 
-  /*
-  eliminarUnidad( eliminar: string){
-    this.unidades = this.unidades.filter(unidad => unidad.id != eliminar)
-  }*/
+  editarUnidad(){
+    this.unidadActual.nombreUnidad = this.nombreunidad
+    console.log(this.unidadActual);
+    this.service.putUnidades(this.unidadActual).subscribe(
+      (res) => console.log(res),
+      (err) => console.log(err)
+      )
+  }
+
+  editarTema(){
+    this.temaActual.nombreTema = this.nombretema
+    this.service.putTemas(this.temaActual).subscribe(
+      (res) => console.log(res),
+      (err) => console.log(err)
+      )
+  }
 
   linkVerPreguntas(idAsignatura: any){
     this.router.navigate(["/"+idAsignatura, 'materia', 'ver'])
   }
+
+  openUnidad(unidadCont: any, id: any) {
+    this.unidadActual = Object.values(this.unidades).filter(unidad => unidad.idUnidades == id)[0]
+    this.nombreunidad = this.unidadActual.nombreUnidad
+    this.modalService
+      .open(unidadCont, { ariaLabelledBy: 'modal-unidad', size: 'lg' })
+  }
+
+  openTema(temaCont: any, id: any) {
+    this.temaActual = Object.values(this.temas).filter(tema => tema.idTema == id)[0]
+    this.nombretema = this.temaActual.nombreTema
+    this.modalService
+      .open(temaCont, { ariaLabelledBy: 'modal-tema', size: 'lg' })
+  }
+
 
 }

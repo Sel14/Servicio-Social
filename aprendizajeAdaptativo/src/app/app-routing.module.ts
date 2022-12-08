@@ -15,6 +15,8 @@ import { ResultadosAlumnoComponent } from './componentes/resultados-alumno/resul
 
 const routes: Routes = [
   { path: 'examen', component: ExamenComponent },
+  { path: ':idAsignatura/materia/examen', component: ExamenComponent },
+  { path: ':idAsignatura/materia/:idExamen/examen', component: ExamenComponent },
   { path: 'login', component:LoginComponent},
   { path: ':idProfesor/inicio', component:InicioComponent},
   { path: 'crear', component:CrearPreguntaComponent },
@@ -25,6 +27,7 @@ const routes: Routes = [
   { path: ':idAsignatura/materia/unidades', component:UnidadesComponent},
   { path: 'materia', component:MateriaComponent},
   { path: ':idAsignatura/materia', component:MateriaComponent},
+
   { path: 'inicio-alumnos', component:InicioAlumnosComponent},
   { path: 'materia-alumnos', component:MateriaAlumnosComponent},
   { path: 'examen-alumnos', component:ExamenAlumnosComponent},

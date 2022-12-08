@@ -20,6 +20,7 @@ export class InicioComponent implements OnInit {
   idAsig: any = "";
   usuario: any;
   materias: AsignaturaInterface[] = <AsignaturaInterface[]>{};
+  materiaActual: AsignaturaInterface = <AsignaturaInterface>{}
   todasAsignaturas: AsignaturaInterface[] = <AsignaturaInterface[]>{};
   idTotalProf: any = "";
   currentProfesor: ProfesorInterface[] = <ProfesorInterface[]>{};
@@ -74,8 +75,7 @@ export class InicioComponent implements OnInit {
   }
 
   //para mostrar los datos
-  
-  
+
   /*materias: Array<any> = [
     {nombre: 'Geometria Analitica', id: 'GA01'},
     {nombre: 'Algebra Lineal', id: 'AL01'}
@@ -149,25 +149,28 @@ export class InicioComponent implements OnInit {
   open(content: any) {
     this.generarId(); 
     this.modalService
-      .open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg' })
-      .result.then(
-        (result) => {
-          this.closeResult = `Closed with: ${result}`;
-        },
-        (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        }
-      );
+      .open(content, { ariaLabelledBy: 'modal-crear', size: 'lg' })
+  }
+  
+  open1(editar: any, materia: AsignaturaInterface) {
+    this.materiaActual.descAsignatura = materia.descAsignatura
+    this.materiaActual.idAsignatura = materia.idAsignatura
+    this.materiaActual.idProfesor = materia.idProfesor
+    this.materiaActual.nombreAsignatura = materia.nombreAsignatura
+    this.modalService
+      .open(editar, { ariaLabelledBy: 'modal-editar', size: 'lg' })
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
+  actualizar(){
+    this.materia.controls['idAsignatura'].setValue(this.materiaActual.idAsignatura)
+    this.materia.controls['idProfesor'].setValue(this.materiaActual.idProfesor)
+    this.materia.controls['descAsignatura'].setValue(this.materiaActual.descAsignatura)
+    console.log(this.materia.value);
+    this.asignatura.putAsignatura(this.materia.value).subscribe(
+      (res) => console.log(res),
+      (err) => console.log(err)
+      )
+      
   }
 
   link(idAsignatura: any){
