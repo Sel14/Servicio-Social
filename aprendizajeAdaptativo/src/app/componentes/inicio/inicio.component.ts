@@ -35,6 +35,7 @@ export class InicioComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    let sesion = localStorage.getItem("sesion")
     this.route.paramMap.subscribe(params => {
       if (params.has("idProfesor")){
         this.idProfesor = params.get("idProfesor")
@@ -170,7 +171,7 @@ export class InicioComponent implements OnInit {
       (res) => console.log(res),
       (err) => console.log(err)
       )
-      
+      window.location.reload()
   }
 
   link(idAsignatura: any){

@@ -17,7 +17,7 @@ const routes: Routes = [
   { path: 'examen', component: ExamenComponent },
   { path: ':idAsignatura/materia/examen', component: ExamenComponent },
   { path: ':idAsignatura/materia/:idExamen/examen', component: ExamenComponent },
-  { path: 'login', component:LoginComponent},
+  { path: '', component:LoginComponent},
   { path: ':idProfesor/inicio', component:InicioComponent},
   { path: 'crear', component:CrearPreguntaComponent },
   { path: ':idAsignatura/materia/crear', component:CrearPreguntaComponent },

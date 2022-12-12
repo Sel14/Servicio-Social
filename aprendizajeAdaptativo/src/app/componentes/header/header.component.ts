@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +10,9 @@ export class HeaderComponent implements OnInit {
 
   loginbtn: boolean;
   logoutbtn: boolean;
-constructor(){
+  sesion: any;
+constructor(private route: ActivatedRoute, private router: Router){
+  this.sesion = sessionStorage.getItem('sesion');
   this.loginbtn = false;
   this.logoutbtn = true;
 }
@@ -38,6 +41,16 @@ constructor(){
   }*/
 
   ngOnInit(): void {
+    
+  }
+
+  link(){
+    this.router.navigate(["/"+this.sesion, "inicio"])
+  }
+
+  cerrarsesion(){
+    sessionStorage.clear();
+    this.router.navigateByUrl('')
   }
 
 }

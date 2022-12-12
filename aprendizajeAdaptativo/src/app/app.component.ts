@@ -9,7 +9,9 @@ import { ExamenService } from './servicios/examen/examen.service';
 export class AppComponent implements OnInit{
   title = 'aprendizajeAdaptativo';
 
-  constructor( private ExamenService: ExamenService ){}
+  constructor( private ExamenService: ExamenService ){
+    
+  }
 
   ngOnInit(){
     ;
