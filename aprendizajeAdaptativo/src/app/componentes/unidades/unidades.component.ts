@@ -41,6 +41,8 @@ export class UnidadesComponent implements OnInit {
   idAsignatura: any = ''
   nuevaunidad: any = ''
   nuevotema: any = ''
+  
+  //La forma en la que se generan los id es con la longitud del array + 1 por lo que hay que cambiarlo xd
   idunidad: any = ''
   idtema: any = ''
   unidadselect: any = ''

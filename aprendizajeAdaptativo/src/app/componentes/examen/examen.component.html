@@ -15,7 +15,6 @@
 
     <input type="number" name="tiempo" [attr.id]="'tiempo'" formControlName="tiempo" placeholder="Duración (Minutos)" class="form-control col-2" />
   </div>
-
   
     <!--seccion de unidad-->
     <div class="unidad col-md-12" formArrayName="unidades" *ngFor="let unidad of getUnidad(examen); let l = index">

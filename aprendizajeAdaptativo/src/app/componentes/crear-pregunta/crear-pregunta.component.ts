@@ -41,7 +41,7 @@ export class CrearPreguntaComponent implements OnInit {
               this.preguntaService.getPreguntas().subscribe(
                 data2=>{
                   const id = <PreguntaInterface[]>data2
-                  this.preguntaId = id.length + 1
+                  this.preguntaId = id.length + 2
                 }
               )
             }
@@ -69,10 +69,11 @@ export class CrearPreguntaComponent implements OnInit {
   ];*/
 
   isChecked = true
-  temas: TemaInterface[] = <TemaInterface[]>{};
+  temas: TemaInterface[] = <TemaInterface[]>[];
   //Son justos y necesarios
   unidadID: any;
   temaid:any
+  //La forma en la que se generan los id es con la longitud del array + 1 por lo que hay que cambiarlo xd
   preguntaId: any
   idAsignatura: any
   cambiarUnidad(e: any) {
@@ -215,7 +216,7 @@ export class CrearPreguntaComponent implements OnInit {
         )
       }
     }
-    this.linkVerPreguntas(this.idAsignatura)
+    
   }
 
   linkVerPreguntas(idAsignatura: any){

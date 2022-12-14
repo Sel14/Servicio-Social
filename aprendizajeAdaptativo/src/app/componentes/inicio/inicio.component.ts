@@ -16,6 +16,7 @@ import { ProfesorInterface } from 'src/app/interfaces/profesor-interface';
 })
 export class InicioComponent implements OnInit {
  
+  //La forma en la que se generan los id es con la longitud del array + 1 por lo que hay que cambiarlo xd
   idProfesor: any = "";
   idAsig: any = "";
   usuario: any;

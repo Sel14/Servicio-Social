@@ -67,7 +67,6 @@ export class ExamenComponent implements OnInit {
       } else {
         this.route.paramMap.subscribe(params => {
           if (params.has("idAsignatura")) {
-            this.flag = !this.flag
             this.service.getUnidadesByAsignatura(params.get("idAsignatura")).subscribe(
               data => {
                 this.unidades = <UnidadInterface[]>data
@@ -119,6 +118,7 @@ export class ExamenComponent implements OnInit {
   correcto: any
   idAsignatura: any
   preguntaId: any
+  //La forma en la que se generan los id es con la longitud del array + 1 por lo que hay que cambiarlo xd
   idExamen: any
   flag = false
 
@@ -370,34 +370,60 @@ export class ExamenComponent implements OnInit {
         (res) => console.log(res),
         (err) => console.log(err)
       )
+      let i = 0
+      for (let unidad of this.getUnidad(this.examen)) {
+        for (let tema of this.getTema(unidad)) {
+          for (let reactivo of this.getReactivo(tema)) {
+            reacForm.idExamen = this.idExamen.toString()
+            reacForm.idReactivo = reactivo.controls['id'].value
+            reacForm.orden = i
+            i++
+            console.log(reacForm)
+            this.examenService.postReativoExamen(reacForm).subscribe(
+              (res) => console.log(res),
+              (err) => console.log(err)
+            )
+            for(let respuesta of this.getRespuesta(reactivo)){
+              preSig.idsigreactivo = respuesta.controls['preguntaSiguiente'].value
+              preSig.idReactivo = respuesta.controls['id'].value
+              preSig.respuestaString = respuesta.controls['contenido'].value
+              console.log(preSig)
+              this.preguntaService.putRespuesta(preSig).subscribe(
+                (res) => console.log(res),
+                (err) => console.log(err)
+              )
+            }
+          }
+        }
+      }
     }else{
       await this.examenService.postExamen(examenForm).subscribe(
         (res) => console.log(res),
         (err) => console.log(err)
       )
-    }
-    let i = 0
-    for (let unidad of this.getUnidad(this.examen)) {
-      for (let tema of this.getTema(unidad)) {
-        for (let reactivo of this.getReactivo(tema)) {
-          reacForm.idExamen = this.idExamen.toString()
-          reacForm.idReactivo = reactivo.controls['id'].value
-          reacForm.orden = i
-          i++
-          console.log(reacForm)
-          this.examenService.postReativoExamen(reacForm).subscribe(
-            (res) => console.log(res),
-            (err) => console.log(err)
-          )
-          for(let respuesta of this.getRespuesta(reactivo)){
-            preSig.idsigreactivo = respuesta.controls['preguntaSiguiente'].value
-            preSig.idReactivo = respuesta.controls['id'].value
-            preSig.respuestaString = respuesta.controls['contenido'].value
-            console.log(preSig)
-            this.preguntaService.putRespuesta(preSig).subscribe(
+      let i = 0
+      for (let unidad of this.getUnidad(this.examen)) {
+        for (let tema of this.getTema(unidad)) {
+          for (let reactivo of this.getReactivo(tema)) {
+            reacForm.idExamen = this.idExamen.toString()
+            reacForm.idReactivo = reactivo.controls['id'].value
+            reacForm.orden = i
+            i++
+            console.log(reacForm)
+            this.examenService.postReativoExamen(reacForm).subscribe(
               (res) => console.log(res),
               (err) => console.log(err)
             )
+            for(let respuesta of this.getRespuesta(reactivo)){
+              preSig.idsigreactivo = respuesta.controls['preguntaSiguiente'].value
+              preSig.idReactivo = respuesta.controls['id'].value
+              preSig.respuestaString = respuesta.controls['contenido'].value
+              console.log(preSig)
+              this.preguntaService.putRespuesta(preSig).subscribe(
+                (res) => console.log(res),
+                (err) => console.log(err)
+              )
+            }
           }
         }
       }
