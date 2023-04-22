@@ -1,10 +1,10 @@
-<h1>{{ nombreMateria }}</h1>
+<h1>{{ materia.nombreAsignatura }}</h1>
 
 
 <div class="col-12" style="align-items: right;">
-    <button class="addbtn btn w-30" type="submit" routerLink="/examen">Crear Examen</button>
-    <button class="addbtn btn w-30" type="submit" routerLink="/ver">Preguntas</button>
-    <button class="addbtn btn w-30" type="submit" routerLink="/unidades">Unidades y temas</button>
+    <button class="addbtn btn w-30" type="submit" (click)="linkExamen(materia.idAsignatura)">Crear Examen</button>
+    <button class="addbtn btn w-30" type="submit" (click)="linkVerPreguntas(materia.idAsignatura)">Preguntas</button>
+    <button class="addbtn btn w-30" type="submit" (click)="linkUnidades(materia.idAsignatura)">Unidades y temas</button>
 </div>
 <br>
 
@@ -17,9 +17,12 @@
     <div *ngFor="let examen of examenes">
         <div class="card">
             <div class="card-body">
-                <a href="/materia">{{examen.nombre}}</a>
+                <a >{{examen.nombre}}</a>
+                <!--Se requiere la parte del alumno para esto
                 Alumnos que han presentado: {{examen.presentados}}/{{examen.asignados}}
+                -->
                 <div>
+                    <!-- Se requiere la parte de los alumnos para asignar una fecha limite
                     Examen disponible:
                     <div *ngIf="examen.disponible==true; then thenBlock else elseBlock"></div>
                     <ng-template #thenBlock>
@@ -33,8 +36,10 @@
                             <span class="slider round"></span>
                         </label>
                     </ng-template>
-                    <button class="addbtn btn w-30" type="submit" routerLink="/examen">Editar</button>
-                    <button class="addbtn btn w-30" type="submit" routerLink="/materia">Ver resultados</button>
+                    -->
+                    <button class="addbtn btn w-30" type="submit" (click)="editarExamen(materia.idAsignatura, examen.idExamen)">Editar</button>
+                    <!--Este boton es necesario para cuando este la parte de los alumnos-->
+                    <button class="addbtn btn w-30" type="submit" routerLink="/materia" disabled >Ver resultados</button>
                 </div>
             </div>
         </div>

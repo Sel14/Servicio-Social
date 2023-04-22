@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -24,6 +25,11 @@ import MathliveBlot from './mathlive-blot';
 import Quill from 'quill';
 
 Quill.register(MathliveBlot)
+import { importType } from '@angular/compiler/src/output/output_ast';
+import { InicioAlumnosComponent } from './componentes/inicio-alumnos/inicio-alumnos.component';
+import { MateriaAlumnosComponent } from './componentes/materia-alumnos/materia-alumnos.component';
+import { ExamenAlumnosComponent } from './componentes/examen-alumnos/examen-alumnos.component';
+import { ResultadosAlumnoComponent } from './componentes/resultados-alumno/resultados-alumno.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +43,10 @@ Quill.register(MathliveBlot)
     CrearPreguntaComponent,
     VerPreguntasComponent,
     MateriaComponent,
+    InicioAlumnosComponent,
+    MateriaAlumnosComponent,
+    ExamenAlumnosComponent,
+    ResultadosAlumnoComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,7 +58,8 @@ Quill.register(MathliveBlot)
     MatSidenavModule,
     QuillModule.forRoot(),
     CKEditorModule,
-    IonicMathliveModule
+    IonicMathliveModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

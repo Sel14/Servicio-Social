@@ -1,7 +1,7 @@
 <div class = "header">
     <nav>
         <div class = "header-left">
-            <a routerLink = "/" routerLinkActive = "active">
+            <a (click)="link()" routerLinkActive = "active">
                 <img src="https://github.com/Sel14/Servicio-Social/raw/crearExamen/FMAT.png" alt="">
             </a>
         </div>
@@ -9,7 +9,7 @@
             <p>Plataforma de aprendizaje adaptativo</p>
         </div>
         <div class = "header-right">
-            <a class="button" routerLink = "/login"><p id="centrado">Inicio</p></a>
+            <a class="button" (click)="cerrarsesion()" ><p id="centrado">Cerrar sesión</p></a>
         </div>
     </nav>
 </div>

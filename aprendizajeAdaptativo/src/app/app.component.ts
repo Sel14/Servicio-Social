@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ExamenService } from './servicios/examen.service';
+import { ExamenService } from './servicios/examen/examen.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +9,9 @@ import { ExamenService } from './servicios/examen.service';
 export class AppComponent implements OnInit{
   title = 'aprendizajeAdaptativo';
 
-  constructor( private ExamenService: ExamenService ){}
+  constructor( private ExamenService: ExamenService ){
+    
+  }
 
   ngOnInit(){
     ;
