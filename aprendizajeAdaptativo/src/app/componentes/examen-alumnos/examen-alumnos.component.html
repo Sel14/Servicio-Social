@@ -1,1 +1,79 @@
-<p>examen-alumnos works!</p>
+<div>
+    <div class = "col-6 container card justify-content-center" *ngIf="iniciar">
+        <div class="card-body justify-content-center" style="display: grid;">
+            <p>
+                Estas apunto de comenzar el examen de {{examen.nombre}}, el cual tiene una duración de 
+                {{examen.duracion}} horas.
+                <br>
+                ¿Deseas continuar?
+            </p>
+            <button class="btn btn-warning col-3"  style="justify-self: center;" (click)="getpreguntas()">
+                Empezar
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<div class="conatiner">
+    <div *ngIf="!terminado">
+    <div class="form-group row d-flex justify-content-center">
+        <!--se hace un for para el cambio del preguntas por los select-->
+    <div class="container" style="display: grid;" *ngIf="currentPregunta!=null">
+        <div class="col-12 card">
+          <div class="card-body">
+            <!--Contenido de la pregunta-->
+            <div class="fondo">
+              <label class="pregunta" for="">
+                {{ currentPregunta.pregunta }}
+              </label>
+            </div>
+  
+            <!--Seccion de respuestas-->
+            <div *ngFor="let respuesta of currentPregunta?.listOfRespuestas, index as i">
+                <input class="check-box" type="radio" name="check" />
+                
+                <label>&nbsp;{{ respuesta.respuesta }}</label>
+            </div>
+  
+            <div class="fondo col-12" style="float: right;">
+  
+              <!--Boton para agregar una imagen, abre un modal para hacerlo-->
+              <div class="col-12" style="float: right;" *ngIf="currentPregunta.requiereProcedimiento">
+                <button class="btn btn-warning col-2" (click)="nextPregunta()"  style="float: right;" >
+                  Agregar Imagen
+                </button>
+                <!--Parte que pregunta si la pregunta requiere procedimiento-->
+                <label class="pregunta" style="margin: 3px;">Agregar procedimiento</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!terminar; else terminarBlock" style="display: grid;">
+            <button class="btn btn-warning col-3" (click)="nextPregunta()"  style="justify-self: center;" >
+            Siguiente pregunta
+          </button>
+        </div>
+        <ng-template #terminarBlock>
+            <button class="btn btn-warning col-3" (click)="examenTerminado()"  style="justify-self: center;" >
+                Terminar examen
+              </button>
+        </ng-template>
+    </div>
+    </div>
+</div>
+
+<div>
+    <div class = "col-6 container card justify-content-center" *ngIf="terminado">
+        <div class="card-body justify-content-center" style="display: grid;">
+            <p>
+                Concluiste el examen de {{examen.nombre}}.
+                <br>
+                ¡Felicidades!
+            </p>
+            <button class="btn btn-warning col-3"  style="justify-self: center;" (click)="salir()">
+                Salir
+            </button>
+        </div>
+    </div>
+</div>
