@@ -1,0 +1,22 @@
+.centrar{
+    text-align: center;
+}
+
+.fondo{
+    background-color: #2D2558;
+    padding: 15px;
+}
+
+.pregunta{
+    color: white;
+}
+
+.check-label {
+    display: table-row;
+}
+
+.conteiner{
+    display: flex;
+    align-self: center;
+    justify-content: center;
+}

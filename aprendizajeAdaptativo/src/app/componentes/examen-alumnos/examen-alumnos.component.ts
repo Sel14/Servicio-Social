@@ -69,8 +69,6 @@ export class ExamenAlumnosComponent implements OnInit {
             this.preguntaService.getPreguntas().subscribe(
               data2=>{
                 this.pregunta = <PreguntaInterface[]>data2
-                console.log("pregunta")
-                console.log(this.pregunta)
               }
             )
           }
@@ -89,8 +87,10 @@ export class ExamenAlumnosComponent implements OnInit {
   iniciar=true;
   terminar=false;
   terminado=false;
+  rowsPreguntas: any[] = [];
+  respondida: any=0; 
   examen={
-    nombre: "Examen de Matemáticas 1",
+    nombre: "Geometría Analítica G-3",
     duracion: "02:00",
   }
   //Temas y unidades es para los cambios en el select
@@ -106,10 +106,7 @@ export class ExamenAlumnosComponent implements OnInit {
       this.unidadID = "2";
       
       if (this.temaID != null) {
-        console.log("Hola2")
-        console.log(this.pregunta.length)
         for (let i = 0; i < this.pregunta.length; i++) {
-          console.log("hola");
           if (
             this.pregunta[i].idunidad == this.unidadID &&
             this.pregunta[i].idtema == this.temaID
@@ -117,9 +114,9 @@ export class ExamenAlumnosComponent implements OnInit {
           this.preguntas.push(this.pregunta[i]);
         }
       }
-      console.log(this.preguntas)
     }
     this.showPreguntas();
+    this.countPreguntas();
     this.iniciar= false;
   }
 
@@ -136,90 +133,36 @@ export class ExamenAlumnosComponent implements OnInit {
         break;
       } 
     }
-    console.log(this.preguntas.length-1);
     if(temp==this.preguntas.length-1){ 
       this.terminar=true;
     } 
   }
 
+  countPreguntas(){
+    let temp: any[] = [];
+    for(let i=0; i<this.preguntas.length; i++){
+      temp.push(this.preguntas[i]);
+      if((i+1)%4==0 || i==this.preguntas.length-1){
+        this.rowsPreguntas.push(temp);
+        temp = [];
+      }
+    }
+  }
+
+  menorque(index: any){
+    if(index<=this.respondida){
+      return true;
+    }
+    return false;
+  }
+
   nextPregunta(){
     this.index++;
+    this.respondida=this.index;
     this.showPreguntas();
   }
 
   examenTerminado(){
     this.terminado=true;
-  }
-
-   cambiarTema(e: any) {
-    this.temaID = null;
-    this.preguntas = [];
-
-    for (let i = 0; i < this.temas.length; i++) {
-      if (this.temas[i].nombreTema == e.target.value) {
-        this.temaID = this.temas[i].idTema;
-      }
-    }
-    if (this.temaID != null) {
-      for (let i = 0; i < this.pregunta.length; i++) {
-        if (
-          this.pregunta[i].idunidad == this.unidadID &&
-          this.pregunta[i].idtema == this.temaID
-        ) {
-          this.preguntas.push(this.pregunta[i]);
-        }
-      }
-      console.log(this.preguntas)
-    }
-  }
-
-
-  open(content: any) {
-    this.modalService
-      .open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg' })
-      .result.then(
-        (result) => {
-          this.closeResult = `Closed with: ${result}`;
-        },
-        (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        }
-      );
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
-  //actualiza lo datos y recarga la página
-  async save(pregunta: PreguntaInterface) {
-    console.log(pregunta);
-    this.preguntaService.putPregunta(pregunta).subscribe(
-      (res) => console.log(res),
-      (err) => console.log(err)
-    )
-    let res: {idReactivo: string, orden: number, idRespuesta: string, respuestaString: string, idsigreactivo: string} = <any>{}
-    for (let i = 0; i<pregunta.listOfRespuestas.length; i++){
-      res.idReactivo = pregunta.idreactivo
-      res.orden = i
-      res.respuestaString =  pregunta.listOfRespuestas[i].respuesta
-      res.idsigreactivo = '1'
-      res.idRespuesta = pregunta.idreactivo + '-' + i.toString()
-      console.log(res);
-      await this.preguntaService.putRespuesta(res).subscribe(
-        (resp) => console.log(resp),
-        (err) => console.log(err)
-      )
-    }
-    //window.location.reload();
-  }
-  
-  linkCrearPreguntas(idAsignatura: any){
-    this.router.navigate(["/"+idAsignatura, 'materia', 'crear'])
   }
 }

@@ -1,1 +1,83 @@
-<p>resultados-alumno works!</p>
+<div>
+    <div class="col-6 container card justify-content-center" *ngIf="iniciar">
+        <div class="card-body justify-content-center" style="display: grid;">
+            <p>
+                Estas apunto de comenzar tu revisión del examen de {{examen.nombre}}.
+                <br>
+                ¿Deseas continuar?
+            </p>
+            <button class="btn btn-warning col-3" style="justify-self: center;" (click)="getpreguntas()">
+                Empezar
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="conatiner col-12 justify-content-end" style="display: block;" *ngIf="!iniciar">
+    <div class="form-group row d-flex justify-content-center">
+        <div class="container" style="display: grid;">
+            <div class="row justify-content-center" style="margin-left: 40px;">
+                <div class="col-8 card">
+                    <div class="card-body" *ngFor="let pregunta of preguntas">
+                        <!--Contenido de la pregunta-->
+                        <div class="fondo">
+                            <label class="pregunta" for="">
+                                {{ pregunta.pregunta }}
+                            </label>
+                        </div>
+
+                        <!--Seccion de respuestas-->
+                        <div *ngFor="let respuesta of pregunta?.listOfRespuestas, index as i">
+                            <input class="check-box" type="radio" disabled [checked]="i == pregunta.correcto" />
+                            <label>&nbsp;{{ respuesta.respuesta }}</label>
+                        </div>
+                        <div *ngFor="let respuesta of pregunta?.listOfRespuestas, index as i">
+                            <div class="col-12" style="float: right;"
+                                *ngIf="!pregunta.requiereProcedimiento">
+                                <div class="col-12" style="float: right; border:1px solid #FF4435; color: #FF4435;"
+                                    *ngIf="i == pregunta.correcto">
+                                    Respuesta correcta: {{respuesta.respuesta}}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="fondo col-12" style="float: right;">
+                            <!--Boton para agregar una imagen, abre un modal para hacerlo-->
+                            <div class="col-12" style="float: right;" *ngIf="pregunta.requiereProcedimiento">
+                                <button class="btn btn-warning col-3" style="float: right;">
+                                    Descargar
+                                </button>
+                                <!--Parte que pregunta si la pregunta requiere procedimiento-->
+                                <label class="pregunta" style="margin: 3px;">Ver procedimiento</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3 container">
+                    <div class="col-12 container card" style="padding: 15px;">
+                        <div class="col-12 container card" *ngFor="let row of rowsPreguntas, index as rownp"
+                            style="border:0px; flex-direction: row;">
+                            <div *ngFor="let pregunta of row, index as np">
+                                <div class="col-3 card container"
+                                    style="justify-content: center; margin: 0px; display: grid; background-color: #82FA54;"
+                                    *ngIf="resultadosPreguntas[(rownp*4)+(np)]; else errorBlock">
+                                    {{(rownp*4)+(np+1)}}
+                                </div>
+                                <ng-template #errorBlock>
+                                    <div class="col-3 card container"
+                                        style="justify-content: center; margin: 0px; display: grid; background-color: #FF4435;">
+                                        {{(rownp*4)+(np+1)}}
+                                    </div>
+                                </ng-template>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-warning col-3" (click)="salir()" style="justify-self: center;">
+                Terminar revisión
+            </button>
+        </div>
+    </div>
+</div>
